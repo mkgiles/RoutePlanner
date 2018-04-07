@@ -1,2 +1,3 @@
 /bin/
-/highways.osm
+*.osm
+

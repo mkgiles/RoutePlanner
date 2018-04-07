@@ -23,7 +23,9 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			new DBI().loadFile("highways.osm");
+			DBI dbi = new DBI("highways.osm");
+			Thread t = new Thread(dbi);
+			t.start();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
