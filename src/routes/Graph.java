@@ -13,6 +13,7 @@ public class Graph {
 	}
 
 	public class Way implements Member{
+		String id;
 		String name;
 		Boolean oneWay = false;
 		String highway;
@@ -20,7 +21,8 @@ public class Graph {
 		String maxspeed = "50 mph";
 		ArrayList<Node> nds;
 
-		public Way() {
+		public Way(String id) {
+			this.id = id;
 			nds = new ArrayList<Node>();
 		}
 		
@@ -46,6 +48,8 @@ public class Graph {
 		
 		public void nd(String id) {
 			try{
+				if(nds.isEmpty())
+					nodes.get(id).start(this);
 				nds.add(nodes.get(id));
 			}catch(Exception e) {
 				System.err.println(e + ":" + id);
@@ -55,28 +59,40 @@ public class Graph {
 	}
 
 	public class Node implements Member{
+		String id;
 		double lat, lon;
+		ArrayList<Way> ways;
 
-		public Node(String lat, String lon) {
-			// TODO Auto-generated constructor stub
+		public Node(String id, String lat, String lon) {
+			this.id = id;
 			this.lat = Double.parseDouble(lat);
 			this.lon = Double.parseDouble(lon);
+			this.ways = new ArrayList<Way>();
 		}
 		
 		@Override
 		public void tag(String key, String value) {
 		}
-
+		
+		public void start(Way way) {
+			ways.add(way);
+		}
+		@Override
+		public String toString() {
+			return this.id + ": " + this.lat + "," + this.lon;
+		}
 	}
 	
 	public class Relation implements Member{
+		String id;
 		ArrayList<Member> members;
 		
 		@Override
 		public void tag(String k, String v) {
 			
 		}
-		public Relation(){
+		public Relation(String id){
+			this.id=id;
 			members = new ArrayList<Member>();
 		}
 		public void member(String id, String type) {

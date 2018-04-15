@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Stack;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,11 +23,11 @@ import routes.Graph.Node;
 import routes.Graph.Relation;
 import routes.Graph.Way;
 
-public class DBI extends Task<Void>{
+public class DBI extends Task<Graph>{
+	Graph graph;
 	public class Handler implements ContentHandler {
 		Stack<Member> stack;
 		List<String> keys;
-		Graph graph;
 
 		public Handler() {
 			// TODO Auto-generated constructor stub
@@ -51,6 +50,10 @@ public class DBI extends Task<Void>{
 		@Override
 		public void endElement(String arg0, String arg1, String arg2) throws SAXException {
 			// TODO Auto-generated method stub
+			if(stack.peek() != null && stack.peek().getClass()==Way.class) {
+				Way way = (Way) stack.peek();
+				way.nds.get(way.nds.size()-1).start(way);
+			}
 			stack.pop();
 
 		}
@@ -98,17 +101,17 @@ public class DBI extends Task<Void>{
 		public void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException {
 			// TODO Auto-generated method stub
 			if(arg2.equals("node")) {
-				Node node = graph.new Node(arg3.getValue("lat"), arg3.getValue("lon"));
+				Node node = graph.new Node(arg3.getValue("id"),arg3.getValue("lat"), arg3.getValue("lon"));
 				graph.node(arg3.getValue("id"),node);
 				stack.add(node);
 			}
 			else if(arg2.equals("way")){
-				Way way = graph.new Way();
+				Way way = graph.new Way(arg3.getValue("id"));
 				graph.way(arg3.getValue("id"),way);
 				stack.add(way);
 			}
 			else if(arg2.equals("relation")) {
-				Relation rel = graph.new Relation();
+				Relation rel = graph.new Relation(arg3.getValue("id"));
 				graph.relation(arg3.getValue("id"),rel);
 				stack.add(rel);
 			}
@@ -155,9 +158,9 @@ public class DBI extends Task<Void>{
 			}
 	}
 	@Override
-	protected Void call() throws Exception {
+	protected Graph call() throws Exception {
 		xml.parse(in);
-		return null;
+		return graph;
 	}
 
 }
