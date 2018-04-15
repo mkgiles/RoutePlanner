@@ -11,7 +11,9 @@ import javafx.fxml.FXMLLoader;
  * The Main Class.
  */
 public class Main extends Application {
+
 	public Graph graph;
+
 	/* (non-Javadoc)
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 */
@@ -23,10 +25,9 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			primaryStage.close();
+
 			DBI dbi = new DBI("test.osm");
 			Thread t = new Thread(dbi);
-			t.start();
 			t.join();
 			graph = dbi.get();
 //			for(Graph.Node node: graph.nodes.values()) {
@@ -37,10 +38,22 @@ public class Main extends Application {
 //				}
 //				System.out.println("---------------");
 //			}
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		
+		//NEW CODE
+		
+		DJK djk = new DJK(graph);
+		djk.DJKSEARCH(null,null);
+
+		
+		
 	}
+	
+	
 	
 	/**
 	 * The main method.
@@ -50,5 +63,8 @@ public class Main extends Application {
 	 */
 	public static void main(String[] args) {
 		launch(args);
+		
+		
+
 	}
 }

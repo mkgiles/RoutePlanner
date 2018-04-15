@@ -25,7 +25,7 @@ public class Graph {
 			this.id = id;
 			nds = new ArrayList<Node>();
 		}
-		
+
 		@Override
 		public void tag(String name, String value) {
 			switch(name) {

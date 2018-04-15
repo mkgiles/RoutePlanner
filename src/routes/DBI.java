@@ -23,11 +23,14 @@ import routes.Graph.Node;
 import routes.Graph.Relation;
 import routes.Graph.Way;
 
+
 public class DBI extends Task<Graph>{
 	Graph graph;
+
 	public class Handler implements ContentHandler {
 		Stack<Member> stack;
 		List<String> keys;
+
 
 		public Handler() {
 			// TODO Auto-generated constructor stub
@@ -41,6 +44,8 @@ public class DBI extends Task<Graph>{
 
 		@Override
 		public void endDocument() throws SAXException {
+			
+			
 			System.out.println("Finished Document");
 			System.out.println("Node count: " + graph.nodes.size());
 			System.out.println("Way count: " + graph.ways.size());
@@ -136,7 +141,7 @@ public class DBI extends Task<Graph>{
 			// TODO Auto-generated method stub
 
 		}
-
+		
 	}
 	InputSource in;
 	XMLReader xml;
@@ -163,4 +168,6 @@ public class DBI extends Task<Graph>{
 		return graph;
 	}
 
+
+	
 }
