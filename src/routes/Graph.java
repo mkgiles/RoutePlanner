@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Graph {
-	HashMap<String,Node> nodes;
-	HashMap<String,Way> ways;
-	HashMap<String,Relation> relations;
+	public HashMap<String,Node> nodes;
+	public HashMap<String,Way> ways;
+	public HashMap<String,Relation> relations;
 	
 	public interface Member {
 		public void tag(String k, String v);
