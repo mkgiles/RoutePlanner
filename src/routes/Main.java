@@ -24,9 +24,11 @@ public class Main extends Application {
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+
 			primaryStage.show();
 
 			DBI dbi = new DBI("test.osm");
+
 			Thread t = new Thread(dbi);
 			t.join();
 			graph = dbi.get();
@@ -34,7 +36,7 @@ public class Main extends Application {
 //				System.out.println(node.id);
 //				System.out.println("---------------");
 //				for(Graph.Way way: node.ways) {
-//					System.out.println(way.id + ": " + way.nds.get(0) + " -> " + way.nds.get(way.nds.size()-1));
+//					System.out.println(way);
 //				}
 //				System.out.println("---------------");
 //			}
@@ -47,7 +49,7 @@ public class Main extends Application {
 		//NEW CODE
 		
 		DJK djk = new DJK(graph);
-		djk.DJKSEARCH(null,null);
+		djk.DJKSEARCH(graph.nodes.get("0"),graph.nodes.get("5"));
 
 		
 		
