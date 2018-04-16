@@ -2,8 +2,8 @@ package routes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 public class Graph {
+	private final double R = 6371e3;
 	public HashMap<String,Node> nodes;
 	public HashMap<String,Way> ways;
 	public HashMap<String,Relation> relations;
@@ -54,6 +54,24 @@ public class Graph {
 			}catch(Exception e) {
 				System.err.println(e + ":" + id);
 			}
+		}
+		
+		public double length() {
+			double sum = 0;
+			for(int i=0;i<nds.size()-1;i++) {
+				Node x = nds.get(i);
+				Node y = nds.get(i+1);
+				double df = Math.toRadians(y.lat-x.lat);
+				double dl = Math.toRadians(y.lon-x.lon);
+				double a = Math.pow(Math.sin(df/2),2) + Math.cos(Math.toRadians(x.lat)) * Math.cos(Math.toRadians(y.lat)) * Math.pow(Math.sin(dl/2), 2);
+				double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+				sum+= R*c;
+			}
+			return sum;
+		}
+		
+		@Override public String toString(){
+			return	this.id + " (" + this.length() + "): " + this.nds.get(0) + " -> " + this.nds.get(this.nds.size()-1);
 		}
 
 	}
