@@ -22,9 +22,8 @@ public class Main extends Application {
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.show();
-			primaryStage.close();
-			DBI dbi = new DBI("test.osm");
+//			primaryStage.show();
+			DBI dbi = new DBI("highways.osm");
 			Thread t = new Thread(dbi);
 			t.start();
 			t.join();
@@ -33,7 +32,7 @@ public class Main extends Application {
 //				System.out.println(node.id);
 //				System.out.println("---------------");
 //				for(Graph.Way way: node.ways) {
-//					System.out.println(way.id + ": " + way.nds.get(0) + " -> " + way.nds.get(way.nds.size()-1));
+//					System.out.println(way);
 //				}
 //				System.out.println("---------------");
 //			}
