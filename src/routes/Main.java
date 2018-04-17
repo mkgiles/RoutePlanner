@@ -30,6 +30,7 @@ public class Main extends Application {
 			DBI dbi = new DBI("test.osm");
 
 			Thread t = new Thread(dbi);
+			t.start();
 			t.join();
 			graph = dbi.get();
 //			for(Graph.Node node: graph.nodes.values()) {
