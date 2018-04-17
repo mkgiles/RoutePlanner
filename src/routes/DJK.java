@@ -91,6 +91,7 @@ public class DJK {
 				nodesVisited.add(currentNode);
 				unvisited.remove(currentNode);
 			}
+			
 			System.out.println("/////////////////////////////////");
 			
 			System.out.println("UNVISITED NODES: " + unvisited);
