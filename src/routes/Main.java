@@ -12,7 +12,7 @@ import javafx.fxml.FXMLLoader;
  */
 public class Main extends Application {
 
-	public Graph graph;
+	public static Graph graph;
 	
 	
 
@@ -58,7 +58,7 @@ public class Main extends Application {
 	}
 	
 	
-	public void callDJK(String start, String destination)
+	public static void callDJK(String start, String destination)
 	{
 		DJK djk = new DJK(graph);
 		djk.DJKSEARCH(graph.nodes.get(start),graph.nodes.get(destination));

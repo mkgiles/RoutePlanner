@@ -45,7 +45,7 @@ public class UIHandler {
 		String startName = startLoc.getText();
 		String destName = destination.getText();
 		if (!startName.isEmpty() && !destName.isEmpty()) {
-			//callDJK(startName,destName);
+			Main.callDJK(startName,destName);
 		} else {
 			System.out.println("Please fill in BOTH fields.");
 		}
