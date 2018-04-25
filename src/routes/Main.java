@@ -1,7 +1,7 @@
 package routes;
 	
+import java.util.concurrent.ExecutionException;
 import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -14,7 +14,8 @@ import javafx.fxml.FXMLLoader;
  */
 public class Main extends Application {
 
-	public static Graph graph;
+	private static Graph graph;
+	private static DBI dbi;
 	
 	
 
@@ -31,12 +32,10 @@ public class Main extends Application {
 
 			primaryStage.show();
 
-			DBI dbi = new DBI("test.osm");
+			dbi = new DBI("test.osm");
 
 			Thread t = new Thread(dbi);
 			t.start();
-			t.join();
-			graph = dbi.get();
 //			for(Graph.Node node: graph.nodes.values()) {
 //				System.out.println(node.id);
 //				System.out.println("---------------");
@@ -59,9 +58,9 @@ public class Main extends Application {
 		
 	}
 	
-	
-	public static ArrayList callDJK(String start, String destination)
+	public static ArrayList callDJK(String start, String destination) throws InterruptedException, ExecutionException
 	{
+		graph = dbi.get();
 		DJK djk = new DJK(graph);
 		djk.DJKSEARCH(graph.nodes.get(start),graph.nodes.get(destination));
 		return djk.shortestRoute;

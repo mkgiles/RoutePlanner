@@ -1,5 +1,6 @@
 package routes;
 
+import java.util.concurrent.ExecutionException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -50,7 +51,7 @@ public class UIHandler {
 	}
 
 	@FXML
-	public void searchButton() {
+	public void searchButton() throws InterruptedException, ExecutionException {
 		String startName = startLoc.getText();
 		String destName = destination.getText();
 		if (!startName.isEmpty() && !destName.isEmpty()) {
@@ -62,7 +63,6 @@ public class UIHandler {
 			{
 				listViewPath.getItems().add(node);
 			}
-			
 		} else {
 			System.out.println("Please fill in BOTH fields.");
 		}

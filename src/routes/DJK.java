@@ -2,6 +2,7 @@ package routes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 import routes.Graph.Node;
@@ -61,7 +62,11 @@ public class DJK {
 			System.out.println("////////////////////" + "CURRENT NODE: " + currentNode.id + "////////////////////");
 			for (Graph.Way way : currentNode.ways) {
 
-				if (way.nds.get(0) == currentNode) {
+				if (way.nds.get(0) != currentNode) {
+					if(nodesVisited.contains(way.nds.get(0)))
+						continue;
+					Collections.reverse(way.nds);
+				}
 
 					System.out.println("Current node: " + currentNode.id);
 					System.out.println(
@@ -85,7 +90,6 @@ public class DJK {
 								.println("THE DISTANCE FROM START: " + distances.get(way.nds.get(way.nds.size() - 1)));
 
 					}
-				}
 				priorityQueue.remove(currentNode);
 
 			}
@@ -99,7 +103,6 @@ public class DJK {
 			unvisited.remove(currentNode);
 			currentNode = (Node) priorityQueue.get(0);
 		}
-		;
 
 		System.out.println("ENDPOINT");
 		System.out.println(currentNode.id);
