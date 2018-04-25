@@ -110,8 +110,8 @@ public class DJK {
 			System.out.println(nodesVisited.get(i));
 		}
 
-		System.out.println(Arrays.asList(distances));
-
+		System.out.println("DISTANCES" + Arrays.asList(distances));
+		Main.shortestDist = distances.get(endPoint);
 		traceBack();
 	}
 
@@ -140,11 +140,12 @@ public class DJK {
 					nextNode = way.nds.get(0);
 					System.out.println("NEXT NODE");
 				}
-
+				
 			}
 			shortestRoute.add(currentNode);
 			currentNode = nextNode;
 		}
 		System.out.println("SHORTEST ROUTE FINAL: " + shortestRoute);
+		
 	}
 }

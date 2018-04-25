@@ -63,6 +63,7 @@ public class UIHandler {
 			{
 				listViewPath.getItems().add(node);
 			}
+			totalDist.setText(Double.toString(Main.shortestDist));
 		} else {
 			System.out.println("Please fill in BOTH fields.");
 		}

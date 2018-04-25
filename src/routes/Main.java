@@ -16,6 +16,7 @@ public class Main extends Application {
 
 	private static Graph graph;
 	private static DBI dbi;
+	public static double shortestDist = -1;
 	
 	
 
