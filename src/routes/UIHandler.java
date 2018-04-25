@@ -1,12 +1,19 @@
 package routes;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
+import routes.Graph.Node;
+
 public class UIHandler {
+	
+	ArrayList<Node> shortestRouteExported;
 
 	public Graph graph;
 
@@ -28,6 +35,8 @@ public class UIHandler {
 	private TextField destination;
 	@FXML
 	private TextField inputAvoid;
+	@FXML
+	private Label totalDist;
 
 	@FXML
 	public void addAvoidedArea() {
@@ -45,7 +54,15 @@ public class UIHandler {
 		String startName = startLoc.getText();
 		String destName = destination.getText();
 		if (!startName.isEmpty() && !destName.isEmpty()) {
-			Main.callDJK(startName,destName);
+			shortestRouteExported = null;
+			listViewPath.getItems().clear();
+			shortestRouteExported = Main.callDJK(startName,destName);
+			Collections.reverse(shortestRouteExported);
+			for(Node node : shortestRouteExported) 
+			{
+				listViewPath.getItems().add(node);
+			}
+			
 		} else {
 			System.out.println("Please fill in BOTH fields.");
 		}

@@ -1,5 +1,7 @@
 package routes;
 	
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -58,10 +60,11 @@ public class Main extends Application {
 	}
 	
 	
-	public static void callDJK(String start, String destination)
+	public static ArrayList callDJK(String start, String destination)
 	{
 		DJK djk = new DJK(graph);
 		djk.DJKSEARCH(graph.nodes.get(start),graph.nodes.get(destination));
+		return djk.shortestRoute;
 	}
 	
 	
