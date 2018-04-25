@@ -13,6 +13,8 @@ import javafx.fxml.FXMLLoader;
 public class Main extends Application {
 
 	public Graph graph;
+	
+	
 
 	/* (non-Javadoc)
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
@@ -47,15 +49,20 @@ public class Main extends Application {
 		}
 		
 		
-		//NEW CODE
+	
 		
-		DJK djk = new DJK(graph);
-		djk.DJKSEARCH(graph.nodes.get("0"),graph.nodes.get("5"));
+		
 
 		
 		
 	}
 	
+	
+	public void callDJK(String start, String destination)
+	{
+		DJK djk = new DJK(graph);
+		djk.DJKSEARCH(graph.nodes.get(start),graph.nodes.get(destination));
+	}
 	
 	
 	/**

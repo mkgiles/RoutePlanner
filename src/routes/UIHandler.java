@@ -1,64 +1,76 @@
 package routes;
-	
-import java.util.ArrayList;
 
-import disjointSets.PixelNode;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 
+public class UIHandler {
 
-/**
- * The Main Class.
- */
-public class UIHandler extends Application {
+	public Graph graph;
 
-	@Override
-	public void start(Stage primaryStage) {
-		try {
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Main.fxml"));
-			Scene scene = new Scene(root,600,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
+	@FXML
+	private Button startSearch;
+	@FXML
+	private Button addAvoid;
+	@FXML
+	private Button clearFields;
+	@FXML
+	private Button dispPath;
+	@FXML
+	private ListView listViewAvoid;
+	@FXML
+	private ListView listViewPath;
+	@FXML
+	private TextField startLoc;
+	@FXML
+	private TextField destination;
+	@FXML
+	private TextField inputAvoid;
 
-			primaryStage.show();
+	@FXML
+	public void addAvoidedArea() {
+		String avoidName = inputAvoid.getText();
+		if (!avoidName.isEmpty()) {
+			listViewAvoid.getItems().add(avoidName);
+			inputAvoid.clear();
+		} else {
+			System.out.println("Empty Input for Avoidance.");
+		}
+	}
 
-		} catch(Exception e) {
-			e.printStackTrace();
+	@FXML
+	public void searchButton() {
+		String startName = startLoc.getText();
+		String destName = destination.getText();
+		if (!startName.isEmpty() && !destName.isEmpty()) {
+			//callDJK(startName,destName);
+		} else {
+			System.out.println("Please fill in BOTH fields.");
 		}
 
-		
 	}
-	
-	
 
-	//@Override
-	public void handle(ActionEvent event) {
-
-
+	@FXML
+	public void clearFields() {
+		listViewAvoid.getItems().clear();
+		listViewPath.getItems().clear();
+		inputAvoid.clear();
+		startLoc.clear();
+		destination.clear();
 	}
-	
-	
-	
-	/**
-	 * The main method.
-	 *
-	 * @param args
-	 *            the arguments
-	 */
-	public static void main(String[] args) {
-		launch(args);
-		
-		
 
+	@FXML
+	public void dispPathType() {
+		if(dispPath.getText() == "Path: Shortest") 
+		{
+			dispPath.setText("Path: Quickest");
+		}
+		else 
+		{
+			dispPath.setText("Path: Shortest");
+		}
 	}
+
 }
