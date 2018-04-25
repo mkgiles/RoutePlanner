@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="routes.Main">
+   <children>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <TextField fx:id="destination" layoutX="13.0" layoutY="148.0" />
+            <TextField fx:id="startLoc" layoutX="13.0" layoutY="77.0" />
+            <Label layoutX="42.0" layoutY="50.0" text="Starting Location" />
+            <Label layoutX="57.0" layoutY="123.0" text="Destination" />
+            <ListView fx:id="listViewAvoid" layoutX="234.0" layoutY="50.0" prefHeight="246.0" prefWidth="133.0" />
+            <Button fx:id="startSearch" layoutX="62.0" layoutY="200.0" mnemonicParsing="false" text="Search" />
+            <ListView fx:id="listViewPath" layoutX="418.0" layoutY="50.0" prefHeight="246.0" prefWidth="133.0" />
+            <Button fx:id="addAvoid" layoutX="234.0" layoutY="339.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Add" />
+            <TextField fx:id="inputAvoid" layoutX="234.0" layoutY="314.0" prefHeight="25.0" prefWidth="133.0" promptText="Add Area To Avoid" />
+            <Label layoutX="263.0" layoutY="33.0" text="Avoided Areas" />
+            <Label layoutX="434.0" layoutY="33.0" text="Path to Destination" />
+            <Button fx:id="cleafFields" layoutX="418.0" layoutY="339.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Clear Fields" />
+            <AnchorPane layoutX="-248.0" layoutY="-240.0" prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </Pane>
+   </children>
 </AnchorPane>
-
