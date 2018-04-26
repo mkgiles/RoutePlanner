@@ -58,6 +58,7 @@ public class UIHandler {
 			shortestRouteExported = null;
 			listViewPath.getItems().clear();
 			shortestRouteExported = Main.callDJK(startName,destName);
+			if(shortestRouteExported != null) {
 			Collections.reverse(shortestRouteExported);
 			for(Node node : shortestRouteExported) 
 			{
@@ -66,6 +67,7 @@ public class UIHandler {
 			totalDist.setText(Double.toString(Main.shortestDist));
 		} else {
 			System.out.println("Please fill in BOTH fields.");
+		}
 		}
 
 	}
