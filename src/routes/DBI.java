@@ -52,10 +52,77 @@ public class DBI extends Task<Graph>{
 			// TODO Auto-generated method stub
 			if(stack.peek() != null && stack.peek().getClass()==Way.class) {
 				Way way = (Way) stack.peek();
-				way.nds.get(way.nds.size()-1).start(way);
+				Boolean driveable;
+				switch(way.highway) {
+				case "pedestrian":
+				case "track":
+				case "bus_guideway":
+				case "escape":
+				case "raceway":
+				case "road":
+				case "footway":
+				case "bridleway":
+				case "steps":
+				case "path":
+				case "cycleway":
+				case "proposed":
+				case "construction":
+					driveable=false;
+				default:
+					driveable=true;
+				}
+				if(driveable) {
+					way.nds.get(way.nds.size()-1).start(way);
+					if(way.maxspeed==-1) {
+						if(way.ref!=null) {
+							switch(way.ref.charAt(0)) {
+							case 'M':
+								way.maxspeed=100;
+								break;
+							case 'N':
+								way.maxspeed=80;
+								break;
+							case 'R':
+								way.maxspeed=60;
+								break;
+							case 'L':
+								way.maxspeed=50;
+							default:
+								way.maxspeed=-1;
+								break;
+							}
+						}
+						if(way.maxspeed==-1) {
+							switch(way.highway) {
+							case "motorway":
+							case "trunk":
+								way.maxspeed=100;
+								break;
+							case "primary":
+								way.maxspeed=80;
+								break;
+							case "secondary":
+								way.maxspeed=60;
+								break;
+							case "tertiary":
+							case "unclassified":
+							case "residential":
+							case "service":
+							default:
+								way.maxspeed=50;
+							}
+						}
+					}
+				}
+				else 
+					graph.ways.remove(way.id);
+			}
+			if(stack.peek() != null && stack.peek().getClass()==Relation.class) {
+				Relation rel = (Relation) stack.peek();
+				if(rel.members.isEmpty() || rel.members.get(0) == null)
+					graph.relations.remove(rel.id);
 			}
 			stack.pop();
-
 		}
 
 		@Override
@@ -118,7 +185,7 @@ public class DBI extends Task<Graph>{
 			else {
 				if(arg2.equals("tag")) {
 					stack.peek().tag(arg3.getValue("k"), arg3.getValue("v"));
-					if(stack.peek().getClass().equals(Relation.class)) {
+					if(stack.peek().getClass().equals(Way.class)) {
 						if(!keys.contains(arg3.getValue("k")))
 							keys.add(arg3.getValue("k"));
 					}
