@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import routes.Graph.Node;
+import routes.Graph.Way;
 
 public class DJK {
 
@@ -15,6 +18,7 @@ public class DJK {
 	Node endPoint;
 	Node nextNode;
 	Graph graph;
+	double distance;
 	ArrayList <Node> shortestRoute = null;
 
 	public DJK(Graph graph) {
@@ -155,6 +159,14 @@ public class DJK {
 			shortestRoute.add(currentNode);
 			currentNode = nextNode;
 		}
+		double sum=0;
+		for(int i = 0; i<shortestRoute.size()-1;i++) {
+			Node node = (Node) shortestRoute.get(i);
+			Node next = (Node) shortestRoute.get(i+1);
+			List<Way> a = node.ways.stream().filter((x)->x.nds.get(0).equals(node)?x.nds.get(x.nds.size()-1).equals(next):x.nds.get(0).equals(next)).collect(Collectors.toList());
+			sum+=a.get(0).length();
+		}
+		System.out.println("LENGTH:"+sum);
 		System.out.println("SHORTEST ROUTE FINAL: " + shortestRoute);
 
 	}
