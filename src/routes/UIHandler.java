@@ -27,9 +27,9 @@ public class UIHandler {
 	@FXML
 	private Button dispPath;
 	@FXML
-	private ListView listViewAvoid;
+	private ListView<String> listViewAvoid;
 	@FXML
-	private ListView listViewPath;
+	private ListView<Node> listViewPath;
 	@FXML
 	private TextField startLoc;
 	@FXML

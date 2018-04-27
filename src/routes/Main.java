@@ -53,7 +53,7 @@ public class Main extends Application {
 
 	}
 
-	public static ArrayList callDJK(String start, String destination) throws InterruptedException, ExecutionException {
+	public static ArrayList<Node> callDJK(String start, String destination) throws InterruptedException, ExecutionException {
 		graph = dbi.get();
 		DJK djk = new DJK(graph);
 		djk.DJKSEARCH(graph.nodes.get(start), graph.nodes.get(destination));

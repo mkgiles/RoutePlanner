@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import routes.Graph.Node;
-import routes.Graph.Way;
 
 public class DJK {
 
@@ -16,7 +15,7 @@ public class DJK {
 	Node endPoint;
 	Node nextNode;
 	Graph graph;
-	ArrayList shortestRoute = null;
+	ArrayList <Node> shortestRoute = null;
 
 	public DJK(Graph graph) {
 
@@ -56,9 +55,9 @@ public class DJK {
 		System.out.println(endPoint);
 		System.out.println(graph);
 
-		ArrayList priorityQueue = new ArrayList<Node>();
-		ArrayList nodesVisited = new ArrayList<Node>();
-		ArrayList unvisited = new ArrayList<Node>();
+		ArrayList <Node> priorityQueue = new ArrayList<Node>();
+		ArrayList <Node> nodesVisited = new ArrayList<Node>();
+		ArrayList <Node> unvisited = new ArrayList<Node>();
 		shortestRoute = new ArrayList<Node>();
 
 		for (String key : graph.nodes.keySet()) {
