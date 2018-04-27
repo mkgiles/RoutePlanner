@@ -15,7 +15,7 @@ import routes.Graph.Node;
  */
 public class Main extends Application {
 
-	private static Graph graph;
+	public static Graph graph;
 	private static DBI dbi;
 	public static double shortestDist = -1;
 
@@ -32,7 +32,8 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			DBI dbi = new DBI("highways.osm");
+			
+			DBI dbi = new DBI("test.osm");
 			Thread t = new Thread(dbi);
 			t.start();
 			// for(Graph.Node node: graph.nodes.values()) {
@@ -76,3 +77,4 @@ public class Main extends Application {
 
 	}
 }
+

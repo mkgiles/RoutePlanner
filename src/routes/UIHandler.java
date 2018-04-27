@@ -1,16 +1,21 @@
 package routes;
 
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 
 import routes.Graph.Node;
+import routes.Graph.Relation;
 
 public class UIHandler {
 	
@@ -19,7 +24,9 @@ public class UIHandler {
 	public Graph graph;
 
 	@FXML
-	private Button startSearch;
+	private Button dropdownFieldButton;
+	@FXML
+	private Button genRouteButton;
 	@FXML
 	private Button addAvoid;
 	@FXML
@@ -38,7 +45,42 @@ public class UIHandler {
 	private TextField inputAvoid;
 	@FXML
 	private Label totalDist;
-
+	
+	@FXML
+	private MenuButton startLocDrop;
+	@FXML
+	private MenuButton destDrop;
+	
+	
+	private Node currentSelectionStart;
+	
+	private Node currentSelectionDest;
+	
+	
+	@FXML
+	public void fillDropdowns()
+	{
+		String startName = startLoc.getText();
+		String destName = destination.getText();
+		
+		System.out.println(startName);
+		System.out.println(destName);
+		List<Node> nds = Main.graph.nodes.values().parallelStream().filter((x)->x.names.contains(startName)).collect(Collectors.toList());
+		for(Node node : nds) {
+			MenuItem mi = new MenuItem();
+			mi.setText(node.toString());
+			mi.setOnAction((x)->{});
+			startLocDrop.getItems().add(mi);
+		}
+	}
+	
+	@FXML
+	public void menuItem()
+	{
+		
+	}
+	
+	
 	@FXML
 	public void addAvoidedArea() {
 		String avoidName = inputAvoid.getText();
@@ -51,9 +93,9 @@ public class UIHandler {
 	}
 
 	@FXML
-	public void searchButton() throws InterruptedException, ExecutionException {
-		String startName = startLoc.getText();
-		String destName = destination.getText();
+	public void genRoute() throws InterruptedException, ExecutionException {
+		String startName = currentSelectionStart.id;
+		String destName = currentSelectionDest.id;
 		if (!startName.isEmpty() && !destName.isEmpty()) {
 			shortestRouteExported = null;
 			listViewPath.getItems().clear();
@@ -62,6 +104,7 @@ public class UIHandler {
 			Collections.reverse(shortestRouteExported);
 			for(Node node : shortestRouteExported) 
 			{
+				
 				listViewPath.getItems().add(node);
 			}
 			totalDist.setText(Double.toString(Main.shortestDist));
@@ -92,5 +135,7 @@ public class UIHandler {
 			dispPath.setText("Path: Shortest");
 		}
 	}
+	
+	
 
 }
