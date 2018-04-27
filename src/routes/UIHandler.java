@@ -126,7 +126,7 @@ public class UIHandler {
 
 	@FXML
 	public void dispPathType() {
-		if(dispPath.getText() == "Path: Shortest") 
+		if(dispPath.getText().equals("Path: Shortest")) 
 		{
 			dispPath.setText("Path: Quickest");
 		}
