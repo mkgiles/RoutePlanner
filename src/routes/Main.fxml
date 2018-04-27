@@ -3,20 +3,22 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="routes.UIHandler">
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="routes.UIHandler">
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <TextField fx:id="destination" layoutX="13.0" layoutY="148.0" />
+            <TextField fx:id="destination" layoutX="13.0" layoutY="162.0" />
             <TextField fx:id="startLoc" layoutX="13.0" layoutY="77.0" />
             <Label fx:id="testLabel" layoutX="42.0" layoutY="50.0" text="Starting Location" />
-            <Label layoutX="57.0" layoutY="123.0" text="Destination" />
+            <Label layoutX="57.0" layoutY="137.0" text="Destination" />
             <ListView fx:id="listViewAvoid" layoutX="234.0" layoutY="50.0" prefHeight="246.0" prefWidth="133.0" />
-            <Button fx:id="startSearch" layoutX="62.0" layoutY="200.0" mnemonicParsing="false" onAction="#searchButton" text="Search" />
+            <Button fx:id="startSearch" layoutX="61.0" layoutY="251.0" mnemonicParsing="false" onAction="#searchButton" text="Search" />
             <ListView fx:id="listViewPath" layoutX="418.0" layoutY="50.0" prefHeight="246.0" prefWidth="133.0" />
             <Button fx:id="addAvoid" layoutX="234.0" layoutY="352.0" mnemonicParsing="false" onAction="#addAvoidedArea" prefHeight="25.0" prefWidth="133.0" text="Add" />
             <TextField fx:id="inputAvoid" layoutX="234.0" layoutY="327.0" prefHeight="25.0" prefWidth="133.0" promptText="Add Area To Avoid" />
@@ -25,6 +27,16 @@
             <Button fx:id="cleafFields" layoutX="418.0" layoutY="352.0" mnemonicParsing="false" onAction="#clearFields" prefHeight="25.0" prefWidth="133.0" text="Clear Fields" />
             <Button fx:id="dispPath" layoutX="418.0" layoutY="327.0" mnemonicParsing="false" onAction="#dispPathType" prefHeight="25.0" prefWidth="133.0" text="Path: Shortest" />
             <Label fx:id="totalDist" layoutX="418.0" layoutY="302.0" text="Total Distance: N/A" />
+            <MenuButton fx:id="startLocDrop" layoutX="12.0" layoutY="102.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Starting Location">
+              <items>
+                <MenuItem mnemonicParsing="false" text="--EMPTY--" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="destDrop" layoutX="12.0" layoutY="188.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Destination">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="--EMPTY--" />
+               </items>
+            </MenuButton>
          </children>
       </Pane>
    </children>
