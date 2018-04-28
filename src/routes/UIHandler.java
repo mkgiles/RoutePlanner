@@ -71,8 +71,8 @@ public class UIHandler {
 	private Node currentSelectionDest;
 	
 	
-	public ArrayList <Node> wayPoints;
-	public ArrayList <Node> avoidedNodes;
+	public ArrayList <Node> wayPoints = new ArrayList<Node>();
+	public ArrayList <Node> avoidedNodes = new ArrayList<Node>();
 	
 	@FXML
 	public void fillDropdowns() throws InterruptedException, ExecutionException
@@ -110,8 +110,11 @@ public class UIHandler {
 		for(Node node : ands) {
 			MenuItem mi = new MenuItem();
 			mi.setText(node.toString());
-			mi.setOnAction((x)->{//avoidedNodes.add(node);
-			listViewAvoid.getItems().add(mi.getText());avoidDrop.setText(mi.getText());});
+			mi.setOnAction((x)->{
+				avoidedNodes.add(node);
+				listViewAvoid.getItems().add(mi.getText());
+				avoidDrop.setText(mi.getText());
+				});
 			avoidDrop.getItems().add(mi);
 			
 		}
@@ -128,8 +131,11 @@ public class UIHandler {
 		for(Node node : wnds) {
 			MenuItem mi = new MenuItem();
 			mi.setText(node.toString());
-			mi.setOnAction((x)->{//wayPoints.add(node);
-			listViewWaypoint.getItems().add(mi.getText());wayPointDrop.setText(mi.getText());});
+			mi.setOnAction((x)->{
+				wayPoints.add(node);
+				listViewWaypoint.getItems().add(mi.getText());
+				wayPointDrop.setText(mi.getText());
+			});
 			wayPointDrop.getItems().add(mi);
 		}
 		inputWaypoint.clear();
