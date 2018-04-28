@@ -87,6 +87,17 @@ public class DJK {
 				System.out.println("NON-WAYPOINT EDSGER	");
 				edsger(selStartPoint, selEndPoint, avoidedNodes);
 			}
+			BigDecimal sum= BigDecimal.ZERO;
+			for(int i = 0; i<shortestRoute.size()-1;i++) {	
+				Node node = shortestRoute.get(i);
+				Node next = shortestRoute.get(i+1);
+				List<Way> a = node.ways.stream().filter((x)->x.nds.get(0).equals(node)?x.nds.get(x.nds.size()-1).equals(next):x.nds.get(0).equals(next)).collect(Collectors.toList());
+				if(Main.quickest)
+					sum= sum.add(a.get(0).speed());
+				else
+					sum= sum.add(a.get(0).length());
+			}
+			Main.shortestDist = sum;
 		}else {
 			System.out.println("One or both nodes do not exist in database.");
 		}
@@ -251,17 +262,6 @@ public class DJK {
 			temp = prev.get(temp);
 		}
 		path.add(temp);
-		BigDecimal sum= BigDecimal.ZERO;
-		for(int i = 0; i<path.size()-1;i++) {	
-			Node node = path.get(i);
-			Node next = path.get(i+1);
-			List<Way> a = node.ways.stream().filter((x)->x.nds.get(0).equals(node)?x.nds.get(x.nds.size()-1).equals(next):x.nds.get(0).equals(next)).collect(Collectors.toList());
-			if(Main.quickest)
-				sum= sum.add(a.get(0).speed());
-			else
-				sum= sum.add(a.get(0).length());
-		}
-		Main.shortestDist = sum;
 		if(!shortestRoute.isEmpty())
 		    path.addAll(shortestRoute.subList(1, shortestRoute.size()));
 		shortestRoute = path;

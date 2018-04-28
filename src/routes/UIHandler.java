@@ -174,7 +174,7 @@ public class UIHandler {
 				
 				listViewPath.getItems().add(node);
 			}
-			totalDist.setText("Total Distance: " + Main.shortestDist.toString().split("\\.")[0] + (Main.quickest?"hrs.":"km."));
+			totalDist.setText((Main.quickest?"Total Duration":"Total Distance: ") + Main.shortestDist.toString().split("\\.")[0] + (Main.quickest?"hrs.":"km."));
 		} else {
 			System.out.println("Please select two points from dropdown menu.");
 		}
