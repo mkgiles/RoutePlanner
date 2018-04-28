@@ -62,9 +62,24 @@ public class DJK {
 		}
 		
 		if (graph.nodes.containsValue(selStartPoint) && graph.nodes.containsValue(selEndPoint)) {
-//			dijkstra();
-			edsger(selStartPoint, selEndPoint);
-		} else {
+			// dijkstra();
+			if (!WayPoints.isEmpty()) {
+				System.out.println("WAYPOINT EDSGER");
+				//Prepending and Appending waypoints with start and end nodes.
+				WayPoints.add(0, startPoint);
+				WayPoints.add(WayPoints.size() - 1, endPoint);
+
+				while (WayPoints.size() > 1) {
+					startPoint = WayPoints.get(0);
+					endPoint = WayPoints.get(1);
+					edsger(startPoint, endPoint);
+					WayPoints.remove(0);
+				}
+			} else {
+				System.out.println("NON-WAYPOINT EDSGER	");
+				edsger(selStartPoint, selEndPoint);
+			}
+		}else {
 			System.out.println("One or both nodes do not exist in database.");
 		}
 	}
