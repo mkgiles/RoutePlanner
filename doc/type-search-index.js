@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"routes","l":"DBI"},{"p":"routes","l":"DBI.Handler"},{"p":"routes","l":"DJK"},{"p":"routes","l":"Graph"},{"p":"routes","l":"Graph.Member"},{"p":"routes","l":"Graph.Node"},{"p":"routes","l":"Graph.Relation"},{"p":"routes","l":"Graph.Way"},{"p":"routes","l":"Main"},{"p":"routes","l":"UIHandler"}]

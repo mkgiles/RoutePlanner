@@ -19,58 +19,108 @@ import routes.Graph.Node;
 import routes.Graph.Relation;
 import routes.Graph.Way;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The UI Handler.
+ */
 public class UIHandler {
 
+	/** The shortest route exported. */
 	ArrayList<Node> shortestRouteExported;
 
+	/** The graph. */
 	public Graph graph;
 
+	/** The dropdown field button. */
 	@FXML
 	private Button dropdownFieldButton;
+	
+	/** The gen route button. */
 	@FXML
 	private Button genRouteButton;
+	
+	/** The search avoid button. */
 	@FXML
 	private Button searchAvoid;
+	
+	/** The search waypoint button. */
 	@FXML
 	private Button searchWaypoint;
+	
+	/** The clear fields button. */
 	@FXML
 	private Button clearFields;
+	
+	/** The display path button. */
 	@FXML
 	private Button dispPath;
+	
+	/** The avoid list view. */
 	@FXML
 	private ListView<String> listViewAvoid;
+	
+	/** The waypoint list view. */
 	@FXML
 	private ListView<String> listViewWaypoint;
+	
+	/** The path list view. */
 	@FXML
 	private ListView<Node> listViewPath;
+	
+	/** The start location search box. */
 	@FXML
 	private TextField startLoc;
+	
+	/** The destination search box. */
 	@FXML
 	private TextField destination;
+	
+	/** The avoid search box. */
 	@FXML
 	private TextField inputAvoid;
+	
+	/** The input waypoint search box. */
 	@FXML
 	private TextField inputWaypoint;
+	
+	/** The total distance label. */
 	@FXML
 	private Label totalDist;
 
+	/** The start loc dropdown. */
 	@FXML
 	private MenuButton startLocDrop;
+	
+	/** The dest dropdown. */
 	@FXML
 	private MenuButton destDrop;
 
+	/** The avoid dropdown. */
 	@FXML
 	private MenuButton avoidDrop;
+	
+	/** The way point dropdown. */
 	@FXML
 	private MenuButton wayPointDrop;
 
+	/** The current selection start. */
 	private Node currentSelectionStart;
 
+	/** The current selection dest. */
 	private Node currentSelectionDest;
 
+	/** The way points. */
 	public ArrayList<Node> wayPoints = new ArrayList<Node>();
+	
+	/** The avoided nodes. */
 	public ArrayList<Node> avoidedNodes = new ArrayList<Node>();
 
+	/**
+	 * Fill start and dest dropdowns.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	@FXML
 	public void fillDropdowns() throws InterruptedException, ExecutionException {
 		startLocDrop.getItems().clear();
@@ -121,6 +171,12 @@ public class UIHandler {
 		}
 	}
 
+	/**
+	 * Fill avoidance dropdown.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	@FXML
 	public void fillAvoidance() throws InterruptedException, ExecutionException {
 		avoidDrop.getItems().clear();
@@ -153,6 +209,12 @@ public class UIHandler {
 		inputAvoid.clear();
 	}
 
+	/**
+	 * Fill waypoint dropdown.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	@FXML
 	public void fillWaypoint() throws InterruptedException, ExecutionException {
 		wayPointDrop.getItems().clear();
@@ -184,6 +246,12 @@ public class UIHandler {
 		inputWaypoint.clear();
 	}
 
+	/**
+	 * Generates route.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	@FXML
 	public void genRoute() throws InterruptedException, ExecutionException {
 
@@ -208,6 +276,9 @@ public class UIHandler {
 
 	}
 
+	/**
+	 * Clears fields.
+	 */
 	@FXML
 	public void clearFields() {
 		listViewWaypoint.getItems().clear();
@@ -219,6 +290,9 @@ public class UIHandler {
 		destination.clear();
 	}
 
+	/**
+	 * Set fastest or shortest route display.
+	 */
 	@FXML
 	public void dispPathType() {
 		if (dispPath.getText().equals("Path: Shortest")) {

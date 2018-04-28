@@ -11,15 +11,26 @@ import javafx.fxml.FXMLLoader;
 
 import routes.Graph.Node;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Main Class.
  */
 public class Main extends Application {
 
+	/** The graph. */
 	private static Graph graph;
+	
+	/** The dbi. */
 	private static DBI dbi;
+	
+	/** The shortest distance. */
 	public static BigDecimal shortestDist = BigDecimal.valueOf(-1);
+	
+	/** Quickest or shortest route */
 	public static boolean quickest = false;
+	
+	//BigDecimal doesn't have an equivalent of Double.POSITIVE_INFINITY so an arbitrarily high number was used for infinity.
+	/** The Constant INFINITY. */
 	public static final BigDecimal INFINITY = BigDecimal.valueOf(1000000000000000000L).scaleByPowerOfTen(1000000000);
 
 	/*
@@ -53,6 +64,17 @@ public class Main extends Application {
 
 	}
 
+	/**
+	 * Call DJK.
+	 *
+	 * @param start the start
+	 * @param destination the destination
+	 * @param wayPoints the way points
+	 * @param avoidedNodes the avoided nodes
+	 * @return the array list
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	public static ArrayList<Node> callDJK(String start, String destination, ArrayList<Node> wayPoints,
 			ArrayList<Node> avoidedNodes) throws InterruptedException, ExecutionException {
 		DJK djk = new DJK(graph);
@@ -76,6 +98,13 @@ public class Main extends Application {
 		launch(args);
 	}
 
+	/**
+	 * Returns the graph, halting the thread to wait for the DBI if necessary.
+	 *
+	 * @return the graph
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	public static Graph graph() throws InterruptedException, ExecutionException {
 		if (graph == null)
 			graph = dbi.get();

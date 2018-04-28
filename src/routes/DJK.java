@@ -10,25 +10,61 @@ import java.util.stream.Collectors;
 import routes.Graph.Node;
 import routes.Graph.Way;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DJK.
+ */
 public class DJK {
 
+	/** The distances. */
 	public HashMap<Node, Double> distances;
+	
+	/** The start point. */
 	Node startPoint;
+	
+	/** The current node. */
 	Node currentNode;
+	
+	/** The end point. */
 	Node endPoint;
+	
+	/** The next node. */
 	Node nextNode;
+	
+	/** The graph. */
 	Graph graph;
+	
+	/** The distance. */
 	double distance;
+	
+	/** The shortest route. */
 	ArrayList<Node> shortestRoute = null;
+	
+	/** The Way points. */
 	ArrayList<Node> WayPoints = null;
+	
+	/** The avoided nodes. */
 	ArrayList<Node> avoidedNodes = null;
 
+	/**
+	 * Instantiates a new djk.
+	 *
+	 * @param graph the graph
+	 */
 	public DJK(Graph graph) {
 
 		this.graph = getGraph(graph);
 
 	}
 
+	/**
+	 * Initialises a route search.
+	 *
+	 * @param selStartPoint the sel start point
+	 * @param selEndPoint the sel end point
+	 * @param selWayPoints the sel way points
+	 * @param selAvoided the sel avoided
+	 */
 	public void DJKSEARCH(Node selStartPoint, Node selEndPoint, ArrayList<Node> selWayPoints,
 			ArrayList<Node> selAvoided) {
 
@@ -91,6 +127,12 @@ public class DJK {
 		}
 	}
 
+	/**
+	 * Gets the graph.
+	 *
+	 * @param graph the graph
+	 * @return the graph
+	 */
 	public Graph getGraph(Graph graph) {
 		return graph;
 	}
@@ -178,6 +220,13 @@ public class DJK {
 	 * 
 	 */
 
+	/**
+	 * Dijkstra implementation using Priority queue, memory efficient UCS-style.
+	 *
+	 * @param source the source
+	 * @param dest the dest
+	 * @param avoidances the avoidances
+	 */
 	public void edsger(Node source, Node dest, ArrayList<Node> avoidances) {
 		HashMap<Node, Node> prev = new HashMap<Node, Node>();
 		HashMap<Node, BigDecimal> dist = new HashMap<Node, BigDecimal>();

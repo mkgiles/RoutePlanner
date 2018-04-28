@@ -23,23 +23,45 @@ import routes.Graph.Node;
 import routes.Graph.Relation;
 import routes.Graph.Way;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The DBI Class.
+ */
 public class DBI extends Task<Graph> {
+	
+	/** The graph. */
 	Graph graph;
 
+	/**
+	 * The Handler Class.
+	 */
 	public class Handler implements ContentHandler {
+		
+		/** The stack. */
 		Stack<Member> stack;
+		
+		/** The keys. */
 		List<String> keys;
 
+		/**
+		 * Instantiates a new handler.
+		 */
 		public Handler() {
 			// TODO Auto-generated constructor stub
 		}
 
+		/* (non-Javadoc)
+		 * @see org.xml.sax.ContentHandler#characters(char[], int, int)
+		 */
 		@Override
 		public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
 			// TODO Auto-generated method stub
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.xml.sax.ContentHandler#endDocument()
+		 */
 		@Override
 		public void endDocument() throws SAXException {
 			System.out.println("Finished Document");
@@ -48,6 +70,9 @@ public class DBI extends Task<Graph> {
 			System.out.println("Relation Count: " + graph.relations.size());
 		}
 
+		/* (non-Javadoc)
+		 * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
+		 */
 		@Override
 		public void endElement(String arg0, String arg1, String arg2) throws SAXException {
 			// TODO Auto-generated method stub
@@ -126,36 +151,54 @@ public class DBI extends Task<Graph> {
 			stack.pop();
 		}
 
+		/* (non-Javadoc)
+		 * @see org.xml.sax.ContentHandler#endPrefixMapping(java.lang.String)
+		 */
 		@Override
 		public void endPrefixMapping(String arg0) throws SAXException {
 			// TODO Auto-generated method stub
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.xml.sax.ContentHandler#ignorableWhitespace(char[], int, int)
+		 */
 		@Override
 		public void ignorableWhitespace(char[] arg0, int arg1, int arg2) throws SAXException {
 			// TODO Auto-generated method stub
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.xml.sax.ContentHandler#processingInstruction(java.lang.String, java.lang.String)
+		 */
 		@Override
 		public void processingInstruction(String arg0, String arg1) throws SAXException {
 			// TODO Auto-generated method stub
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.xml.sax.ContentHandler#setDocumentLocator(org.xml.sax.Locator)
+		 */
 		@Override
 		public void setDocumentLocator(Locator arg0) {
 			// TODO Auto-generated method stub
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.xml.sax.ContentHandler#skippedEntity(java.lang.String)
+		 */
 		@Override
 		public void skippedEntity(String arg0) throws SAXException {
 			// TODO Auto-generated method stub
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.xml.sax.ContentHandler#startDocument()
+		 */
 		@Override
 		public void startDocument() throws SAXException {
 			System.out.println("Started Document");
@@ -165,6 +208,9 @@ public class DBI extends Task<Graph> {
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
+		 */
 		@Override
 		public void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException {
 			// TODO Auto-generated method stub
@@ -196,6 +242,9 @@ public class DBI extends Task<Graph> {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String, java.lang.String)
+		 */
 		@Override
 		public void startPrefixMapping(String arg0, String arg1) throws SAXException {
 			// TODO Auto-generated method stub
@@ -204,9 +253,17 @@ public class DBI extends Task<Graph> {
 
 	}
 
+	/** The input stream. */
 	InputSource in;
+	
+	/** The xml reader. */
 	XMLReader xml;
 
+	/**
+	 * Instantiates a new dbi.
+	 *
+	 * @param filename the filename
+	 */
 	public DBI(String filename) {
 		// TODO Auto-generated constructor stub
 		try {
@@ -224,6 +281,9 @@ public class DBI extends Task<Graph> {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javafx.concurrent.Task#call()
+	 */
 	@Override
 	protected Graph call() throws Exception {
 		xml.parse(in);
