@@ -23,14 +23,12 @@ import routes.Graph.Node;
 import routes.Graph.Relation;
 import routes.Graph.Way;
 
-
-public class DBI extends Task<Graph>{
+public class DBI extends Task<Graph> {
 	Graph graph;
 
 	public class Handler implements ContentHandler {
 		Stack<Member> stack;
 		List<String> keys;
-
 
 		public Handler() {
 			// TODO Auto-generated constructor stub
@@ -44,8 +42,7 @@ public class DBI extends Task<Graph>{
 
 		@Override
 		public void endDocument() throws SAXException {
-			
-			
+
 			System.out.println("Finished Document");
 			System.out.println("Node count: " + graph.nodes.size());
 			System.out.println("Way count: " + graph.ways.size());
@@ -56,10 +53,10 @@ public class DBI extends Task<Graph>{
 		public void endElement(String arg0, String arg1, String arg2) throws SAXException {
 			// TODO Auto-generated method stub
 
-			if(stack.peek() != null && stack.peek().getClass()==Way.class) {
+			if (stack.peek() != null && stack.peek().getClass() == Way.class) {
 				Way way = (Way) stack.peek();
 				Boolean driveable;
-				switch(way.highway) {
+				switch (way.highway) {
 				case "pedestrian":
 				case "track":
 				case "bus_guideway":
@@ -73,59 +70,58 @@ public class DBI extends Task<Graph>{
 				case "cycleway":
 				case "proposed":
 				case "construction":
-					driveable=false;
+					driveable = false;
 				default:
-					driveable=true;
+					driveable = true;
 				}
-				if(driveable) {
-					way.nds.get(way.nds.size()-1).start(way);
-					if(way.maxspeed==-1) {
-						if(way.ref!=null) {
-							switch(way.ref.charAt(0)) {
+				if (driveable) {
+					way.nds.get(way.nds.size() - 1).start(way);
+					if (way.maxspeed == -1) {
+						if (way.ref != null) {
+							switch (way.ref.charAt(0)) {
 							case 'M':
-								way.maxspeed=100;
+								way.maxspeed = 100;
 								break;
 							case 'N':
-								way.maxspeed=80;
+								way.maxspeed = 80;
 								break;
 							case 'R':
-								way.maxspeed=60;
+								way.maxspeed = 60;
 								break;
 							case 'L':
-								way.maxspeed=50;
+								way.maxspeed = 50;
 							default:
-								way.maxspeed=-1;
+								way.maxspeed = -1;
 								break;
 							}
 						}
-						if(way.maxspeed==-1) {
-							switch(way.highway) {
+						if (way.maxspeed == -1) {
+							switch (way.highway) {
 							case "motorway":
 							case "trunk":
-								way.maxspeed=100;
+								way.maxspeed = 100;
 								break;
 							case "primary":
-								way.maxspeed=80;
+								way.maxspeed = 80;
 								break;
 							case "secondary":
-								way.maxspeed=60;
+								way.maxspeed = 60;
 								break;
 							case "tertiary":
 							case "unclassified":
 							case "residential":
 							case "service":
 							default:
-								way.maxspeed=50;
+								way.maxspeed = 50;
 							}
 						}
 					}
-				}
-				else 
+				} else
 					graph.ways.remove(way.id);
 			}
-			if(stack.peek() != null && stack.peek().getClass()==Relation.class) {
+			if (stack.peek() != null && stack.peek().getClass() == Relation.class) {
 				Relation rel = (Relation) stack.peek();
-				if(rel.members.isEmpty() || rel.members.get(0) == null)
+				if (rel.members.isEmpty() || rel.members.get(0) == null)
 					graph.relations.remove(rel.id);
 			}
 			stack.pop();
@@ -173,32 +169,29 @@ public class DBI extends Task<Graph>{
 		@Override
 		public void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException {
 			// TODO Auto-generated method stub
-			if(arg2.equals("node")) {
-				Node node = graph.new Node(arg3.getValue("id"),arg3.getValue("lat"), arg3.getValue("lon"));
-				graph.node(arg3.getValue("id"),node);
+			if (arg2.equals("node")) {
+				Node node = graph.new Node(arg3.getValue("id"), arg3.getValue("lat"), arg3.getValue("lon"));
+				graph.node(arg3.getValue("id"), node);
 				stack.add(node);
-			}
-			else if(arg2.equals("way")){
+			} else if (arg2.equals("way")) {
 				Way way = graph.new Way(arg3.getValue("id"));
-				graph.way(arg3.getValue("id"),way);
+				graph.way(arg3.getValue("id"), way);
 				stack.add(way);
-			}
-			else if(arg2.equals("relation")) {
+			} else if (arg2.equals("relation")) {
 				Relation rel = graph.new Relation(arg3.getValue("id"));
-				graph.relation(arg3.getValue("id"),rel);
+				graph.relation(arg3.getValue("id"), rel);
 				stack.add(rel);
-			}
-			else {
-				if(arg2.equals("tag")) {
+			} else {
+				if (arg2.equals("tag")) {
 					stack.peek().tag(arg3.getValue("k"), arg3.getValue("v"));
-					if(stack.peek().getClass().equals(Way.class)) {
-						if(!keys.contains(arg3.getValue("k")))
+					if (stack.peek().getClass().equals(Way.class)) {
+						if (!keys.contains(arg3.getValue("k")))
 							keys.add(arg3.getValue("k"));
 					}
 				}
-				if(arg2.equals("member") && stack.peek().getClass()==Relation.class)
+				if (arg2.equals("member") && stack.peek().getClass() == Relation.class)
 					((Relation) stack.peek()).member(arg3.getValue("ref"), arg3.getValue("type"));
-				if(arg2.equals("nd") && stack.peek().getClass()==Way.class)
+				if (arg2.equals("nd") && stack.peek().getClass() == Way.class)
 					((Way) stack.peek()).nd(arg3.getValue("ref"));
 				stack.add(null);
 			}
@@ -209,8 +202,9 @@ public class DBI extends Task<Graph>{
 			// TODO Auto-generated method stub
 
 		}
-		
+
 	}
+
 	InputSource in;
 	XMLReader xml;
 
@@ -223,20 +217,18 @@ public class DBI extends Task<Graph>{
 			e.printStackTrace();
 		}
 		xml.setContentHandler(new Handler());
-			try {
-				in = new InputSource(new FileReader(new File(filename)));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			in = new InputSource(new FileReader(new File(filename)));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+
 	@Override
 	protected Graph call() throws Exception {
 		xml.parse(in);
 		return graph;
 	}
 
-
-	
 }
-

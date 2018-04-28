@@ -20,8 +20,8 @@ public class Main extends Application {
 	private static DBI dbi;
 	public static BigDecimal shortestDist = BigDecimal.valueOf(-1);
 	public static boolean quickest = false;
-	public static final BigDecimal INFINITY = BigDecimal.valueOf(1000000000000000000L).scaleByPowerOfTen(1000000000); 
-	
+	public static final BigDecimal INFINITY = BigDecimal.valueOf(1000000000000000000L).scaleByPowerOfTen(1000000000);
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -53,16 +53,15 @@ public class Main extends Application {
 
 	}
 
-	public static ArrayList<Node> callDJK(String start, String destination, ArrayList<Node> wayPoints, ArrayList<Node> avoidedNodes) throws InterruptedException, ExecutionException {
+	public static ArrayList<Node> callDJK(String start, String destination, ArrayList<Node> wayPoints,
+			ArrayList<Node> avoidedNodes) throws InterruptedException, ExecutionException {
 		DJK djk = new DJK(graph);
 		djk.DJKSEARCH(graph.nodes.get(start), graph.nodes.get(destination), wayPoints, avoidedNodes);
-		if(djk.shortestRoute != null) {
-		return djk.shortestRoute;
-		}
-		else 
-		{
-			 ArrayList <Node>  invalidRoute = null;
-			 return invalidRoute;
+		if (djk.shortestRoute != null) {
+			return djk.shortestRoute;
+		} else {
+			ArrayList<Node> invalidRoute = null;
+			return invalidRoute;
 		}
 
 	}
@@ -76,10 +75,10 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
 	public static Graph graph() throws InterruptedException, ExecutionException {
-		if(graph == null)
+		if (graph == null)
 			graph = dbi.get();
 		return graph;
 	}
 }
-

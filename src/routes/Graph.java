@@ -3,17 +3,18 @@ package routes;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 public class Graph {
 	private final double R = 6371;
-	public HashMap<String,Node> nodes;
-	public HashMap<String,Way> ways;
-	public HashMap<String,Relation> relations;
-	
+	public HashMap<String, Node> nodes;
+	public HashMap<String, Way> ways;
+	public HashMap<String, Relation> relations;
+
 	public interface Member {
 		public void tag(String k, String v);
 	}
 
-	public class Way implements Member{
+	public class Way implements Member {
 		String id;
 		ArrayList<String> names;
 		Boolean oneWay = false;
@@ -31,12 +32,12 @@ public class Graph {
 		@Override
 		public void tag(String name, String value) {
 			String prefix = name.split(":")[0];
-			switch(prefix) {
+			switch (prefix) {
 			case "name":
 				names.add(value);
 				break;
 			case "oneway":
-				oneWay=value.equals("yes");
+				oneWay = value.equals("yes");
 				break;
 			case "highway":
 				highway = value;
@@ -46,47 +47,50 @@ public class Graph {
 				break;
 			case "maxspeed":
 				String s = value.split("\\s")[0];
-				maxspeed = s.matches("^\\d+$")?Integer.parseInt(s):-1;
+				maxspeed = s.matches("^\\d+$") ? Integer.parseInt(s) : -1;
 				break;
 			default:
 				break;
 			}
 		}
-		
+
 		public void nd(String id) {
-			try{
-				if(nds.isEmpty())
+			try {
+				if (nds.isEmpty())
 					nodes.get(id).start(this);
 				nds.add(nodes.get(id));
-			}catch(Exception e) {
+			} catch (Exception e) {
 				System.err.println(e + ":" + id);
 			}
 		}
-		
+
 		public BigDecimal speed() {
 			return length().divide(BigDecimal.valueOf(maxspeed));
 		}
-		
+
 		public BigDecimal length() {
 			BigDecimal sum = BigDecimal.ZERO;
-			for(int i=0;i<nds.size()-1;i++) {
+			for (int i = 0; i < nds.size() - 1; i++) {
 				Node x = nds.get(i);
-				Node y = nds.get(i+1);
+				Node y = nds.get(i + 1);
 				double f1 = Math.toRadians(x.lat);
 				double f2 = Math.toRadians(y.lat);
-				double dl = Math.toRadians(y.lon-x.lon);
-				sum= sum.add(BigDecimal.valueOf(Math.acos(Math.sin(f1) * Math.sin(f2) + Math.cos(f1) * Math.cos(f2) * Math.cos(dl)) * R));
+				double dl = Math.toRadians(y.lon - x.lon);
+				sum = sum.add(BigDecimal.valueOf(
+						Math.acos(Math.sin(f1) * Math.sin(f2) + Math.cos(f1) * Math.cos(f2) * Math.cos(dl)) * R));
 			}
 			return sum;
 		}
-		
-		@Override public String toString(){
-			return	this.id + " (" + this.length() + "): " + this.nds.get(0) + " -> " + this.nds.get(this.nds.size()-1);
+
+		@Override
+		public String toString() {
+			return this.id + " (" + this.length() + "): " + this.nds.get(0) + " -> "
+					+ this.nds.get(this.nds.size() - 1);
 		}
 
 	}
 
-	public class Node implements Member{
+	public class Node implements Member {
 		String id;
 		double lat, lon;
 		ArrayList<Way> ways;
@@ -99,11 +103,11 @@ public class Graph {
 			this.ways = new ArrayList<Way>();
 			this.names = new ArrayList<String>();
 		}
-		
+
 		@Override
 		public void tag(String key, String value) {
 			String prefix = key.split(":")[0];
-			switch(prefix) {
+			switch (prefix) {
 			case "name":
 				names.add(value);
 				break;
@@ -111,26 +115,27 @@ public class Graph {
 				break;
 			}
 		}
-		
+
 		public void start(Way way) {
 			ways.add(way);
 		}
+
 		@Override
 		public String toString() {
 			return this.id + ": " + this.lat + "," + this.lon;
 		}
 	}
-	
-	public class Relation implements Member{
+
+	public class Relation implements Member {
 		String id;
 		String type = "";
 		ArrayList<String> names;
 		ArrayList<Member> members;
-		
+
 		@Override
 		public void tag(String k, String v) {
 			String prefix = k.split(":")[0];
-			switch(prefix) {
+			switch (prefix) {
 			case "name":
 				names.add(v);
 				break;
@@ -147,13 +152,15 @@ public class Graph {
 				break;
 			}
 		}
-		public Relation(String id){
-			this.id=id;
+
+		public Relation(String id) {
+			this.id = id;
 			members = new ArrayList<Member>();
 			names = new ArrayList<String>();
 		}
+
 		public void member(String id, String type) {
-			switch(type) {
+			switch (type) {
 			case "node":
 				members.add(nodes.get(id));
 				break;
@@ -167,25 +174,29 @@ public class Graph {
 				break;
 			}
 		}
-		
+
 		@Override
 		public String toString() {
-			return type + " " + id + ": " + (names.isEmpty()?"anonyme":names.get(0)) + (members.isEmpty()?"":" [" + members.get(0) + "; " + members.get(members.size()-1) + "]");
+			return type + " " + id + ": " + (names.isEmpty() ? "anonyme" : names.get(0))
+					+ (members.isEmpty() ? "" : " [" + members.get(0) + "; " + members.get(members.size() - 1) + "]");
 		}
-		
+
 	}
 
 	public Graph() {
-		nodes = new HashMap<String,Node>();
-		ways = new HashMap<String,Way>();
-		relations = new HashMap<String,Relation>();
+		nodes = new HashMap<String, Node>();
+		ways = new HashMap<String, Way>();
+		relations = new HashMap<String, Relation>();
 	}
+
 	public void node(String id, Node node) {
 		nodes.put(id, node);
 	}
+
 	public void way(String id, Way way) {
 		ways.put(id, way);
 	}
+
 	public void relation(String id, Relation relation) {
 		relations.put(id, relation);
 	}
