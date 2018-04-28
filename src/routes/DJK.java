@@ -36,6 +36,7 @@ public class DJK {
 		this.startPoint = selStartPoint;
 		this.endPoint = selEndPoint;
 		this.currentNode = startPoint;
+		shortestRoute = new ArrayList<Node>();
 
 		System.out.println("START POINT: " + selStartPoint);
 		System.out.println(graph.nodes.containsValue(selStartPoint));
@@ -251,7 +252,7 @@ public class DJK {
 			sum= sum.add(a.get(0).length());
 		}
 		Main.shortestDist = sum;
-		shortestRoute = path;
+		shortestRoute.addAll(path);
 		System.out.println("done");
 	}
 

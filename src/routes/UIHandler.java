@@ -174,7 +174,7 @@ public class UIHandler {
 				
 				listViewPath.getItems().add(node);
 			}
-			totalDist.setText(Main.shortestDist.toString());
+			totalDist.setText("Total Distance: " + Main.shortestDist.toString().split("\\.")[0] + "km.");
 		} else {
 			System.out.println("Please select two points from dropdown menu.");
 		}
@@ -184,8 +184,10 @@ public class UIHandler {
 
 	@FXML
 	public void clearFields() {
+		listViewWaypoint.getItems().clear();
 		listViewAvoid.getItems().clear();
 		listViewPath.getItems().clear();
+		inputWaypoint.clear();
 		inputAvoid.clear();
 		startLoc.clear();
 		destination.clear();
