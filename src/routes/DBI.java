@@ -42,7 +42,6 @@ public class DBI extends Task<Graph> {
 
 		@Override
 		public void endDocument() throws SAXException {
-
 			System.out.println("Finished Document");
 			System.out.println("Node count: " + graph.nodes.size());
 			System.out.println("Way count: " + graph.ways.size());

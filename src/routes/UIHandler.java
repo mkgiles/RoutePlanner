@@ -3,6 +3,7 @@ package routes;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +16,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 
 import routes.Graph.Node;
+import routes.Graph.Relation;
+import routes.Graph.Way;
 
 public class UIHandler {
 
@@ -74,11 +77,31 @@ public class UIHandler {
 		destDrop.getItems().clear();
 		String startName = startLoc.getText();
 		String destName = destination.getText();
-		List<Node> snds = Main.graph().nodes.values().parallelStream().filter((x) -> x.names.contains(startName))
-				.collect(Collectors.toList());
-		List<Node> dnds = Main.graph().nodes.values().parallelStream().filter((x) -> x.names.contains(destName))
-				.collect(Collectors.toList());
-		for (Node node : snds) {
+		System.out.println(startName);
+		System.out.println(destName);
+		List<Node> snds = Main.graph().nodes.values().parallelStream().filter((x)->x.names.contains(startName)).collect(Collectors.toList());
+		List<Node> dnds = Main.graph().nodes.values().parallelStream().filter((x)->x.names.contains(destName)).collect(Collectors.toList());
+		snds.addAll((Collection<? extends Node>) Main.graph().ways.values().parallelStream().filter((x)->x.names.contains(startName)).map((x)->x.nds.get(0)).collect(Collectors.toList()));
+		dnds.addAll((Collection<? extends Node>) Main.graph().ways.values().parallelStream().filter((x)->x.names.contains(destName)).map((x)->x.nds.get(0)).collect(Collectors.toList()));
+		for(Relation rel : Main.graph().relations.values()) {
+			if(!rel.names.contains(startName)) {
+				if(!rel.names.contains(destName))
+					continue;
+				if(rel.members.get(0).getClass().equals(Node.class))
+					dnds.add((Node) rel.members.get(0));
+				if(rel.members.get(0).getClass().equals(Way.class))
+					dnds.add(((Way) rel.members.get(0)).nds.get(0));
+			}
+			else {
+				if(rel.members.get(0).getClass().equals(Node.class))
+					snds.add((Node) rel.members.get(0));
+				if(rel.members.get(0).getClass().equals(Way.class))
+					snds.add(((Way) rel.members.get(0)).nds.get(0));
+			}
+		}
+		snds.addAll((Collection<? extends Node>) Main.graph().ways.values().parallelStream().filter((x)->x.names.contains(startName)).map((x)->x.nds.get(0)).collect(Collectors.toList()));
+		dnds.addAll((Collection<? extends Node>) Main.graph().ways.values().parallelStream().filter((x)->x.names.contains(destName)).map((x)->x.nds.get(0)).collect(Collectors.toList()));	
+		for(Node node : snds) {
 			MenuItem mi = new MenuItem();
 			mi.setText(node.toString());
 			mi.setOnAction((x) -> {

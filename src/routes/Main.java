@@ -35,7 +35,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			dbi = new DBI("test.osm");
+			dbi = new DBI("highways.osm");
 			Thread t = new Thread(dbi);
 			t.start();
 			// for(Graph.Node node: graph.nodes.values()) {

@@ -12,6 +12,7 @@ public class Graph {
 
 	public interface Member {
 		public void tag(String k, String v);
+		public void relation(Relation r);
 	}
 
 	public class Way implements Member {
@@ -22,11 +23,13 @@ public class Graph {
 		String ref;
 		int maxspeed = -1;
 		ArrayList<Node> nds;
+		ArrayList<Relation> relations;
 
 		public Way(String id) {
 			this.id = id;
 			nds = new ArrayList<Node>();
 			names = new ArrayList<String>();
+			relations = new ArrayList<Relation>();
 		}
 
 		@Override
@@ -53,6 +56,10 @@ public class Graph {
 				break;
 			}
 		}
+		
+		@Override public void relation(Relation r){
+			this.relations.add(r);
+		}
 
 		public void nd(String id) {
 			try {
@@ -65,7 +72,14 @@ public class Graph {
 		}
 
 		public BigDecimal speed() {
-			return length().divide(BigDecimal.valueOf(maxspeed));
+			BigDecimal spd;
+			try {
+				spd = length().divide(BigDecimal.valueOf(maxspeed));
+			}catch(ArithmeticException e) {
+				System.err.println(e);
+				spd = length().divideToIntegralValue(BigDecimal.valueOf(maxspeed));
+			}
+			return spd;
 		}
 
 		public BigDecimal length() {
@@ -95,6 +109,7 @@ public class Graph {
 		double lat, lon;
 		ArrayList<Way> ways;
 		ArrayList<String> names;
+		ArrayList<Relation> relations;
 
 		public Node(String id, String lat, String lon) {
 			this.id = id;
@@ -102,6 +117,7 @@ public class Graph {
 			this.lon = Double.parseDouble(lon);
 			this.ways = new ArrayList<Way>();
 			this.names = new ArrayList<String>();
+			this.relations = new ArrayList<Relation>();
 		}
 
 		@Override
@@ -115,14 +131,34 @@ public class Graph {
 				break;
 			}
 		}
-
+		
+		@Override public void relation(Relation r){
+			this.relations.add(r);
+		}
 		public void start(Way way) {
 			ways.add(way);
 		}
 
 		@Override
 		public String toString() {
-			return this.id + ": " + this.lat + "," + this.lon;
+			String str = "";
+			if(this.names.isEmpty()) {
+				for(Way way: this.ways)
+					if(!way.names.isEmpty()) {
+						str = way.names.get(0);
+						break;
+					}
+				for(Relation rel: this.relations)
+					if(!rel.names.isEmpty()) {
+						str = rel.names.get(0);
+						break;
+					}
+				if(str.equals(""))
+					return id;
+			}
+			else
+				str += this.names.get(0);
+			return str + "(" + id + ")";
 		}
 	}
 
@@ -131,7 +167,8 @@ public class Graph {
 		String type = "";
 		ArrayList<String> names;
 		ArrayList<Member> members;
-
+		ArrayList<Relation> rels;
+		
 		@Override
 		public void tag(String k, String v) {
 			String prefix = k.split(":")[0];
@@ -157,6 +194,7 @@ public class Graph {
 			this.id = id;
 			members = new ArrayList<Member>();
 			names = new ArrayList<String>();
+			rels = new ArrayList<Relation>();
 		}
 
 		public void member(String id, String type) {
@@ -173,6 +211,12 @@ public class Graph {
 			default:
 				break;
 			}
+			if(members.get(members.size()-1)!=null)
+				members.get(members.size()-1).relation(this);
+		}
+		
+		@Override public void relation(Relation r){
+			this.rels.add(r);
 		}
 
 		@Override
