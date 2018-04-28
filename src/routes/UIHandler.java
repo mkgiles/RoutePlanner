@@ -71,6 +71,9 @@ public class UIHandler {
 	private Node currentSelectionDest;
 	
 	
+	public ArrayList <Node> wayPoints;
+	public ArrayList <Node> avoidedNodes;
+	
 	@FXML
 	public void fillDropdowns() throws InterruptedException, ExecutionException
 	{
@@ -107,8 +110,10 @@ public class UIHandler {
 		for(Node node : ands) {
 			MenuItem mi = new MenuItem();
 			mi.setText(node.toString());
-			mi.setOnAction((x)->{listViewAvoid.getItems().add(mi.getText());avoidDrop.setText(mi.getText());});
+			mi.setOnAction((x)->{//avoidedNodes.add(node);
+			listViewAvoid.getItems().add(mi.getText());avoidDrop.setText(mi.getText());});
 			avoidDrop.getItems().add(mi);
+			
 		}
 		inputAvoid.clear();
 	}
@@ -123,7 +128,8 @@ public class UIHandler {
 		for(Node node : wnds) {
 			MenuItem mi = new MenuItem();
 			mi.setText(node.toString());
-			mi.setOnAction((x)->{listViewWaypoint.getItems().add(mi.getText());wayPointDrop.setText(mi.getText());});
+			mi.setOnAction((x)->{//wayPoints.add(node);
+			listViewWaypoint.getItems().add(mi.getText());wayPointDrop.setText(mi.getText());});
 			wayPointDrop.getItems().add(mi);
 		}
 		inputWaypoint.clear();
@@ -149,12 +155,14 @@ public class UIHandler {
 
 	@FXML
 	public void genRoute() throws InterruptedException, ExecutionException {
+		
+		
 		String startName = currentSelectionStart.id;
 		String destName = currentSelectionDest.id;
 		if (!startLocDrop.getText().equals("Starting Location") && !destDrop.getText().equals("Destination")) {
 			shortestRouteExported = null;
 			listViewPath.getItems().clear();
-			shortestRouteExported = Main.callDJK(startName,destName);
+			shortestRouteExported = Main.callDJK(startName,destName, wayPoints, avoidedNodes);
 			if(shortestRouteExported != null) {
 			Collections.reverse(shortestRouteExported);
 			for(Node node : shortestRouteExported) 

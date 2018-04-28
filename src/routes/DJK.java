@@ -21,6 +21,8 @@ public class DJK {
 	Graph graph;
 	double distance;
 	ArrayList <Node> shortestRoute = null;
+	ArrayList <Node> WayPoints = null;
+	ArrayList <Node> avoidedNodes = null;
 
 	public DJK(Graph graph) {
 
@@ -28,7 +30,7 @@ public class DJK {
 
 	}
 
-	public void DJKSEARCH(Node selStartPoint, Node selEndPoint) {
+	public void DJKSEARCH(Node selStartPoint, Node selEndPoint, ArrayList selWayPoints, ArrayList selAvoided) {
 		System.out.println("DJK NODES ASSIGNED");
 		this.startPoint = selStartPoint;
 		this.endPoint = selEndPoint;
@@ -39,6 +41,24 @@ public class DJK {
 		
 		System.out.println("End POINT: " + selEndPoint);
 		System.out.println(graph.nodes.containsValue(selEndPoint));
+		
+		if(selWayPoints != null) 
+		{
+			WayPoints = selWayPoints;
+			System.out.println("WAYPOINTS: " + WayPoints);
+		}else 
+		{
+			System.out.println("NO WAYPOINTS SET");
+		}
+		
+		if(selAvoided != null) 
+		{
+			avoidedNodes = selAvoided;
+			System.out.println("AVOIDED NODES: " + avoidedNodes);
+		}else 
+		{
+			System.out.println("NO NODES AVOIDED");
+		}
 		
 		if (graph.nodes.containsValue(selStartPoint) && graph.nodes.containsValue(selEndPoint)) {
 //			dijkstra();

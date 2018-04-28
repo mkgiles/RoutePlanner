@@ -18,7 +18,7 @@ public class Main extends Application {
 	private static Graph graph;
 	private static DBI dbi;
 	public static double shortestDist = -1;
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -50,9 +50,9 @@ public class Main extends Application {
 
 	}
 
-	public static ArrayList<Node> callDJK(String start, String destination) throws InterruptedException, ExecutionException {
+	public static ArrayList<Node> callDJK(String start, String destination, ArrayList wayPoints, ArrayList avoidedNodes) throws InterruptedException, ExecutionException {
 		DJK djk = new DJK(graph);
-		djk.DJKSEARCH(graph.nodes.get(start), graph.nodes.get(destination));
+		djk.DJKSEARCH(graph.nodes.get(start), graph.nodes.get(destination), wayPoints, avoidedNodes);
 		if(djk.shortestRoute != null) {
 		return djk.shortestRoute;
 		}
