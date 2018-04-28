@@ -73,12 +73,12 @@ public class DJK {
 				while (WayPoints.size() > 1) {
 					startPoint = WayPoints.get(0);
 					endPoint = WayPoints.get(1);
-					edsger(startPoint, endPoint);
+					edsger(startPoint, endPoint, avoidedNodes);
 					WayPoints.remove(0);
 				}
 			} else {
 				System.out.println("NON-WAYPOINT EDSGER	");
-				edsger(selStartPoint, selEndPoint);
+				edsger(selStartPoint, selEndPoint, avoidedNodes);
 			}
 		}else {
 			System.out.println("One or both nodes do not exist in database.");
@@ -211,7 +211,7 @@ public class DJK {
 
 	}
 	
-	public void edsger(Node source, Node dest) {
+	public void edsger(Node source, Node dest, ArrayList<Node> avoidances) {
 		HashMap<Node, Node> prev = new HashMap<Node,Node>();
 		HashMap<Node, BigDecimal> dist = new HashMap<Node,BigDecimal>();
 		PriorityQueue<Node> queue = new PriorityQueue<Node>(11, (a,b)-> {if(dist.get(a)==null)dist.put(a,Main.INFINITY);if(dist.get(b)==null)dist.put(b,Main.INFINITY);return dist.get(a).compareTo(dist.get(b));});
@@ -225,7 +225,7 @@ public class DJK {
 				break;
 			for(Way way : temp.ways) {
 				Node stop = way.nds.get(0)==temp?way.nds.get(way.nds.size()-1):way.nds.get(0);
-				if(!visited.contains(stop)) {
+				if(!visited.contains(stop) && !avoidances.contains(stop)) {
 					queue.add(stop);
 					visited.add(stop);
 				}
