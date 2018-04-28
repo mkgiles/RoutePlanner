@@ -66,16 +66,23 @@ public class DJK {
 			// dijkstra();
 			if (!WayPoints.isEmpty()) {
 				System.out.println("WAYPOINT EDSGER");
+				System.out.println("PRE PREPEND/APPEND: " + WayPoints);
 				//Prepending and Appending waypoints with start and end nodes.
 				WayPoints.add(0, startPoint);
-				WayPoints.add(WayPoints.size() - 1, endPoint);
-
+				WayPoints.add(WayPoints.size(), endPoint);
+				System.out.println("POST PREPEND/APPEND: " + WayPoints);
 				while (WayPoints.size() > 1) {
+					System.out.println("PRE CYCLE :" + WayPoints);
 					startPoint = WayPoints.get(0);
 					endPoint = WayPoints.get(1);
 					edsger(startPoint, endPoint, avoidedNodes);
 					WayPoints.remove(0);
+					System.out.println("POST CYCLE :" + WayPoints);
+					System.out.println("SHORTEST ROUTE IN :" + shortestRoute);
 				}
+				
+				System.out.println("FINISHED :" + WayPoints);
+				System.out.println("SHORTEST ROUTE OUT :" + shortestRoute);
 			} else {
 				System.out.println("NON-WAYPOINT EDSGER	");
 				edsger(selStartPoint, selEndPoint, avoidedNodes);
@@ -255,7 +262,9 @@ public class DJK {
 				sum= sum.add(a.get(0).length());
 		}
 		Main.shortestDist = sum;
-		shortestRoute.addAll(path);
+		if(!shortestRoute.isEmpty())
+		    path.addAll(shortestRoute.subList(1, shortestRoute.size()));
+		shortestRoute = path;
 		System.out.println("done");
 	}
 
