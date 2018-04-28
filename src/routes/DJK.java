@@ -80,6 +80,8 @@ public class DJK {
 						.filter((x) -> x.nds.get(0).equals(node) ? x.nds.get(x.nds.size() - 1).equals(next)
 								: x.nds.get(0).equals(next))
 						.collect(Collectors.toList());
+				if(a.isEmpty())
+					continue;
 				if (Main.quickest)
 					sum = sum.add(a.get(0).speed());
 				else

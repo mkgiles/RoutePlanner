@@ -127,6 +127,18 @@ public class UIHandler {
 		String avoidName = inputAvoid.getText();
 		List<Node> ands = Main.graph().nodes.values().parallelStream().filter((x) -> x.names.contains(avoidName))
 				.collect(Collectors.toList());
+		for(Relation rel : Main.graph().relations.values()) {
+			if(!rel.names.contains(avoidName))
+				continue;
+			for(int i = 0; i<rel.members.size();i++) {
+				if(rel.members.get(i).getClass().equals(Node.class))
+					ands.add((Node) rel.members.get(0));
+				if(rel.members.get(i).getClass().equals(Way.class))
+					ands.add(((Way) rel.members.get(0)).nds.get(0));
+			}
+		}
+		for(ArrayList<Node> a : Main.graph().ways.values().parallelStream().filter((x)->x.names.contains(avoidName)).map((x)->x.nds).collect(Collectors.toList()))
+			ands.addAll(a);
 		for (Node node : ands) {
 			MenuItem mi = new MenuItem();
 			mi.setText(node.toString());
@@ -137,7 +149,7 @@ public class UIHandler {
 			});
 			avoidDrop.getItems().add(mi);
 
-		}
+		}		
 		inputAvoid.clear();
 	}
 
@@ -147,6 +159,18 @@ public class UIHandler {
 		String waypointName = inputWaypoint.getText();
 		List<Node> wnds = Main.graph().nodes.values().parallelStream().filter((x) -> x.names.contains(waypointName))
 				.collect(Collectors.toList());
+		for(Relation rel : Main.graph().relations.values()) {
+			if(!rel.names.contains(waypointName))
+				continue;
+			for(int i = 0; i<rel.members.size();i++) {
+				if(rel.members.get(i).getClass().equals(Node.class))
+					wnds.add((Node) rel.members.get(0));
+				if(rel.members.get(i).getClass().equals(Way.class))
+					wnds.add(((Way) rel.members.get(0)).nds.get(0));
+			}
+		}
+		for(ArrayList<Node> a : Main.graph().ways.values().parallelStream().filter((x)->x.names.contains(waypointName)).map((x)->x.nds).collect(Collectors.toList()))
+			wnds.addAll(a);
 		for (Node node : wnds) {
 			MenuItem mi = new MenuItem();
 			mi.setText(node.toString());
@@ -175,7 +199,7 @@ public class UIHandler {
 
 					listViewPath.getItems().add(node);
 				}
-				totalDist.setText((Main.quickest ? "Total Duration" : "Total Distance: ")
+				totalDist.setText((Main.quickest ? "Total Duration: " : "Total Distance: ")
 						+ Main.shortestDist.toString().split("\\.")[0] + (Main.quickest ? "hrs." : "km."));
 			} else {
 				System.out.println("Please select two points from dropdown menu.");

@@ -46,7 +46,6 @@ class DBITest {
 		try {
 			graph = dbi.get();
 		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertArrayEquals(new String[]{"0", "1", "2", "3", "4", "5", "6", "7"},graph.nodes.keySet().toArray());
