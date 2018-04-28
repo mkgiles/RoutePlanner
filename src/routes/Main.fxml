@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="routes.UIHandler">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="routes.UIHandler">
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -17,16 +17,16 @@
             <TextField fx:id="startLoc" layoutX="12.0" layoutY="59.0" />
             <Label layoutX="42.0" layoutY="42.0" text="Starting Location" />
             <Label layoutX="56.0" layoutY="84.0" text="Destination" />
-            <ListView fx:id="listViewAvoid" layoutX="234.0" layoutY="50.0" prefHeight="246.0" prefWidth="133.0" />
+            <ListView fx:id="listViewAvoid" layoutX="182.0" layoutY="45.0" prefHeight="246.0" prefWidth="110.0" />
             <Button fx:id="dropdownFieldButton" layoutX="60.0" layoutY="126.0" mnemonicParsing="false" onAction="#fillDropdowns" text="Search" />
-            <ListView fx:id="listViewPath" layoutX="418.0" layoutY="50.0" prefHeight="246.0" prefWidth="133.0" />
-            <Button fx:id="addAvoid" layoutX="234.0" layoutY="352.0" mnemonicParsing="false" onAction="#addAvoidedArea" prefHeight="25.0" prefWidth="133.0" text="Add" />
-            <TextField fx:id="inputAvoid" layoutX="234.0" layoutY="327.0" prefHeight="25.0" prefWidth="133.0" promptText="Add Area To Avoid" />
-            <Label layoutX="263.0" layoutY="33.0" text="Avoided Areas" />
-            <Label layoutX="434.0" layoutY="33.0" text="Path to Destination" />
-            <Button fx:id="cleafFields" layoutX="418.0" layoutY="352.0" mnemonicParsing="false" onAction="#clearFields" prefHeight="25.0" prefWidth="133.0" text="Clear Fields" />
-            <Button fx:id="dispPath" layoutX="418.0" layoutY="327.0" mnemonicParsing="false" onAction="#dispPathType" prefHeight="25.0" prefWidth="133.0" text="Path: Shortest" />
-            <Label fx:id="totalDist" layoutX="418.0" layoutY="302.0" text="Total Distance: N/A" />
+            <ListView fx:id="listViewPath" layoutX="453.0" layoutY="45.0" prefHeight="246.0" prefWidth="133.0" />
+            <Button fx:id="searchAvoid" layoutX="182.0" layoutY="321.0" mnemonicParsing="false" onAction="#fillAvoidance" prefHeight="25.0" prefWidth="110.0" text="Search" />
+            <TextField fx:id="inputAvoid" layoutX="182.0" layoutY="293.0" prefHeight="25.0" prefWidth="110.0" promptText="Enter Area" />
+            <Label layoutX="199.0" layoutY="28.0" text="Avoided Areas" textFill="#ff1919" />
+            <Label layoutX="469.0" layoutY="28.0" text="Path to Destination" textFill="#2ca4b9" />
+            <Button fx:id="cleafFields" layoutX="453.0" layoutY="347.0" mnemonicParsing="false" onAction="#clearFields" prefHeight="25.0" prefWidth="133.0" text="Clear Fields" />
+            <Button fx:id="dispPath" layoutX="453.0" layoutY="322.0" mnemonicParsing="false" onAction="#dispPathType" prefHeight="25.0" prefWidth="133.0" text="Path: Shortest" />
+            <Label fx:id="totalDist" layoutX="453.0" layoutY="297.0" text="Total Distance: N/A" />
             <MenuButton fx:id="startLocDrop" layoutX="12.0" layoutY="215.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Starting Location">
               <items>
                 <MenuItem mnemonicParsing="false" text="--EMPTY--" />
@@ -38,6 +38,20 @@
                </items>
             </MenuButton>
             <Button fx:id="genRouteButton" layoutX="11.0" layoutY="290.0" mnemonicParsing="false" onAction="#genRoute" prefHeight="87.0" prefWidth="149.0" text="Generate Route" />
+            <ListView fx:id="listViewWaypoint" layoutX="300.0" layoutY="45.0" prefHeight="246.0" prefWidth="110.0" />
+            <Button fx:id="searchWaypoint" layoutX="300.0" layoutY="321.0" mnemonicParsing="false" onAction="#fillWaypoint" prefHeight="25.0" prefWidth="110.0" text="Search" />
+            <TextField fx:id="inputWaypoint" layoutX="300.0" layoutY="293.0" prefHeight="25.0" prefWidth="110.0" promptText="Enter Area" />
+            <Label layoutX="327.0" layoutY="28.0" text="Waypoints" textFill="#28a839" />
+            <MenuButton fx:id="avoidDrop" layoutX="182.0" layoutY="347.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Select Area">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="--EMPTY--" />
+               </items>
+            </MenuButton>
+            <MenuButton fx:id="wayPointDrop" layoutX="300.0" layoutY="347.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Select Area">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="--EMPTY--" />
+               </items>
+            </MenuButton>
          </children>
       </Pane>
    </children>

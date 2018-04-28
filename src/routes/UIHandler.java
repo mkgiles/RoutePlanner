@@ -29,13 +29,17 @@ public class UIHandler {
 	@FXML
 	private Button genRouteButton;
 	@FXML
-	private Button addAvoid;
+	private Button searchAvoid;
+	@FXML
+	private Button searchWaypoint;
 	@FXML
 	private Button clearFields;
 	@FXML
 	private Button dispPath;
 	@FXML
 	private ListView<String> listViewAvoid;
+	@FXML
+	private ListView<String> listViewWaypoint;
 	@FXML
 	private ListView<Node> listViewPath;
 	@FXML
@@ -45,12 +49,21 @@ public class UIHandler {
 	@FXML
 	private TextField inputAvoid;
 	@FXML
+	private TextField inputWaypoint;
+	@FXML
 	private Label totalDist;
 	
 	@FXML
 	private MenuButton startLocDrop;
 	@FXML
 	private MenuButton destDrop;
+	
+	
+	@FXML
+	private MenuButton avoidDrop;
+	@FXML
+	private MenuButton wayPointDrop;
+	
 	
 	
 	private Node currentSelectionStart;
@@ -83,6 +96,39 @@ public class UIHandler {
 		}
 	}
 	
+	
+	@FXML
+	public void fillAvoidance()  throws InterruptedException, ExecutionException 
+	{
+		avoidDrop.getItems().clear();
+		String avoidName = inputAvoid.getText();
+		System.out.println(avoidName);
+		List<Node> ands = Main.graph().nodes.values().parallelStream().filter((x)->x.names.contains(avoidName)).collect(Collectors.toList());
+		for(Node node : ands) {
+			MenuItem mi = new MenuItem();
+			mi.setText(node.toString());
+			mi.setOnAction((x)->{listViewAvoid.getItems().add(mi.getText());avoidDrop.setText(mi.getText());});
+			avoidDrop.getItems().add(mi);
+		}
+		inputAvoid.clear();
+	}
+	
+	@FXML
+	public void fillWaypoint()  throws InterruptedException, ExecutionException 
+	{
+		wayPointDrop.getItems().clear();
+		String waypointName = inputWaypoint.getText();
+		System.out.println(waypointName);
+		List<Node> wnds = Main.graph().nodes.values().parallelStream().filter((x)->x.names.contains(waypointName)).collect(Collectors.toList());
+		for(Node node : wnds) {
+			MenuItem mi = new MenuItem();
+			mi.setText(node.toString());
+			mi.setOnAction((x)->{listViewWaypoint.getItems().add(mi.getText());wayPointDrop.setText(mi.getText());});
+			wayPointDrop.getItems().add(mi);
+		}
+		inputWaypoint.clear();
+	}
+	
 	@FXML
 	public void menuItem()
 	{
@@ -105,7 +151,7 @@ public class UIHandler {
 	public void genRoute() throws InterruptedException, ExecutionException {
 		String startName = currentSelectionStart.id;
 		String destName = currentSelectionDest.id;
-		if (!startName.isEmpty() && !destName.isEmpty()) {
+		if (!startLocDrop.getText().equals("Starting Location") && !destDrop.getText().equals("Destination")) {
 			shortestRouteExported = null;
 			listViewPath.getItems().clear();
 			shortestRouteExported = Main.callDJK(startName,destName);
@@ -118,7 +164,7 @@ public class UIHandler {
 			}
 			totalDist.setText(Double.toString(Main.shortestDist));
 		} else {
-			System.out.println("Please fill in BOTH fields.");
+			System.out.println("Please select two points from dropdown menu.");
 		}
 		}
 
