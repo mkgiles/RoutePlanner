@@ -231,8 +231,8 @@ public class DJK {
 				}
 				if(dist.get(stop)==null)
 					dist.put(stop,Main.INFINITY);
-				if((dist.get(temp).add(way.length())).compareTo(dist.get(stop))<0) {
-					dist.put(stop, dist.get(temp).add(way.length()));
+				if((dist.get(temp).add(Main.quickest?way.speed():way.length())).compareTo(dist.get(stop))<0) {
+					dist.put(stop, dist.get(temp).add(Main.quickest?way.speed():way.length()));
 					prev.put(stop, temp);
 				}
 			}
@@ -249,7 +249,10 @@ public class DJK {
 			Node node = path.get(i);
 			Node next = path.get(i+1);
 			List<Way> a = node.ways.stream().filter((x)->x.nds.get(0).equals(node)?x.nds.get(x.nds.size()-1).equals(next):x.nds.get(0).equals(next)).collect(Collectors.toList());
-			sum= sum.add(a.get(0).length());
+			if(Main.quickest)
+				sum= sum.add(a.get(0).speed());
+			else
+				sum= sum.add(a.get(0).length());
 		}
 		Main.shortestDist = sum;
 		shortestRoute.addAll(path);

@@ -19,6 +19,7 @@ public class Main extends Application {
 	private static Graph graph;
 	private static DBI dbi;
 	public static BigDecimal shortestDist = BigDecimal.valueOf(-1);
+	public static boolean quickest = false;
 	public static final BigDecimal INFINITY = BigDecimal.valueOf(1000000000000000000L).scaleByPowerOfTen(1000000000); 
 	
 	/*

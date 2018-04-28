@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 public class Graph {
-	private final double R = 6371e3;
+	private final double R = 6371;
 	public HashMap<String,Node> nodes;
 	public HashMap<String,Way> ways;
 	public HashMap<String,Relation> relations;
@@ -61,6 +61,10 @@ public class Graph {
 			}catch(Exception e) {
 				System.err.println(e + ":" + id);
 			}
+		}
+		
+		public BigDecimal speed() {
+			return length().divide(BigDecimal.valueOf(maxspeed));
 		}
 		
 		public BigDecimal length() {

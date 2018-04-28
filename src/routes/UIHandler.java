@@ -174,7 +174,7 @@ public class UIHandler {
 				
 				listViewPath.getItems().add(node);
 			}
-			totalDist.setText("Total Distance: " + Main.shortestDist.toString().split("\\.")[0] + "km.");
+			totalDist.setText("Total Distance: " + Main.shortestDist.toString().split("\\.")[0] + (Main.quickest?"hrs.":"km."));
 		} else {
 			System.out.println("Please select two points from dropdown menu.");
 		}
@@ -198,10 +198,12 @@ public class UIHandler {
 		if(dispPath.getText().equals("Path: Shortest")) 
 		{
 			dispPath.setText("Path: Quickest");
+			Main.quickest = true;
 		}
 		else 
 		{
 			dispPath.setText("Path: Shortest");
+			Main.quickest = false;
 		}
 	}
 	
