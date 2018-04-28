@@ -67,11 +67,10 @@ public class Graph {
 			for(int i=0;i<nds.size()-1;i++) {
 				Node x = nds.get(i);
 				Node y = nds.get(i+1);
-				double df = Math.toRadians(y.lat-x.lat);
+				double f1 = Math.toRadians(x.lat);
+				double f2 = Math.toRadians(y.lat);
 				double dl = Math.toRadians(y.lon-x.lon);
-				double a = Math.pow(Math.sin(df/2),2) + Math.cos(Math.toRadians(x.lat)) * Math.cos(Math.toRadians(y.lat)) * Math.pow(Math.sin(dl/2), 2);
-				double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-				sum+= R*c;
+				sum+= Math.acos(Math.sin(f1) * Math.sin(f2) + Math.cos(f1) * Math.cos(f2) * Math.cos(dl)) * R;
 			}
 			return sum;
 		}

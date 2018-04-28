@@ -15,7 +15,7 @@ import routes.Graph.Node;
  */
 public class Main extends Application {
 
-	public static Graph graph;
+	private static Graph graph;
 	private static DBI dbi;
 	public static double shortestDist = -1;
 
@@ -51,7 +51,6 @@ public class Main extends Application {
 	}
 
 	public static ArrayList<Node> callDJK(String start, String destination) throws InterruptedException, ExecutionException {
-		graph = dbi.get();
 		DJK djk = new DJK(graph);
 		djk.DJKSEARCH(graph.nodes.get(start), graph.nodes.get(destination));
 		if(djk.shortestRoute != null) {
@@ -73,7 +72,11 @@ public class Main extends Application {
 	 */
 	public static void main(String[] args) {
 		launch(args);
-
+	}
+	public static Graph graph() throws InterruptedException, ExecutionException {
+		if(graph == null)
+			graph = dbi.get();
+		return graph;
 	}
 }
 

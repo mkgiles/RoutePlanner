@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
 import routes.Graph.Node;
@@ -40,7 +41,8 @@ public class DJK {
 		System.out.println(graph.nodes.containsValue(selEndPoint));
 		
 		if (graph.nodes.containsValue(selStartPoint) && graph.nodes.containsValue(selEndPoint)) {
-			dijkstra();
+//			dijkstra();
+			edsger(selStartPoint, selEndPoint);
 		} else {
 			System.out.println("One or both nodes do not exist in database.");
 		}
@@ -54,11 +56,6 @@ public class DJK {
 	public void dijkstra() {
 
 		distances = new HashMap<Node, Double>();
-
-		System.out.println(startPoint);
-		System.out.println(endPoint);
-		System.out.println(graph);
-
 		ArrayList <Node> priorityQueue = new ArrayList<Node>();
 		ArrayList <Node> nodesVisited = new ArrayList<Node>();
 		ArrayList <Node> unvisited = new ArrayList<Node>();
@@ -70,11 +67,6 @@ public class DJK {
 				distances.put(dest, Double.POSITIVE_INFINITY);
 			}
 		}
-
-//		for (String key : graph.nodes.keySet()) {
-//			unvisited.add(graph.nodes.get(key));
-//			distances.put(graph.nodes.get(key), Double.POSITIVE_INFINITY);
-//		}
 
 		distances.put(startPoint, (double) 0);
 		priorityQueue.add(startPoint);
@@ -94,22 +86,19 @@ public class DJK {
 					unvisited.add(dest);
 					distances.put(dest, Double.POSITIVE_INFINITY);
 				}
-
-				System.out.println("Current node: " + currentNode.id);
 				System.out.println("WAY " + way);
-				System.out.println("THE LENGTH IS " + way.length());
 
 				priorityQueue.add(dest);
 
 //				 Removing midpoints
-				if (way.nds.size() > 2) {
-					for (int i = 0; i < way.nds.size(); i++) {
-						Node removalNode = way.nds.get(i);
-						if (removalNode != way.nds.get(0) || removalNode != dest) {
-							unvisited.remove(removalNode);
-						}
-					}
-				}
+//				if (way.nds.size() > 2) {
+//					for (int i = 0; i < way.nds.size(); i++) {
+//						Node removalNode = way.nds.get(i);
+//						if (removalNode != way.nds.get(0) || removalNode != dest) {
+//							unvisited.remove(removalNode);
+//						}
+//					}
+//				}
 				if (way.length() < distances.get(dest)) {
 					distances.put(dest, distances.get(currentNode) + way.length());
 					System.out.println("THE DISTANCE FROM START: " + distances.get(dest));
@@ -125,7 +114,7 @@ public class DJK {
 			priorityQueue.remove(currentNode);
 			nodesVisited.add(currentNode);
 			unvisited.remove(currentNode);
-			currentNode = (Node) priorityQueue.get(0);
+			currentNode = priorityQueue.get(0);
 		}
 
 		System.out.println("ENDPOINT");
@@ -137,7 +126,7 @@ public class DJK {
 		System.out.println("DISTANCES" + Arrays.asList(distances));
 		System.out.println(endPoint);
 		System.out.println(distances.get(endPoint)==null?"null":distances.get(endPoint));
-		Main.shortestDist = distances.get(endPoint);
+//		Main.shortestDist = distances.get(endPoint);
 
 		traceBack();
 	}
@@ -156,19 +145,22 @@ public class DJK {
 				Node dest = way.nds.get(0);
 				if (shortestCurrentWayDist == -1.0) {
 					System.out.println("INIT");
-					shortestCurrentWayDist = distances.get(dest);
-					System.out.println(distances.get(dest));
-					nextNode = dest;
+					if(!(distances.get(dest)==null)) {
+						shortestCurrentWayDist = distances.get(dest);
+						System.out.println(distances.get(dest));
+						nextNode = dest;
+					}
 					System.out.println("NEXT NODE");
 				} else if ((distances.get(dest)==null?Double.POSITIVE_INFINITY:distances.get(dest)) < shortestCurrentWayDist) {
 					System.out.println("LOOP");
 					shortestCurrentWayDist = distances.get(way.nds.get(0));
-					nextNode = way.nds.get(0);
+					nextNode = dest;
 					System.out.println("NEXT NODE");
 				}
 			}
 			shortestRoute.add(currentNode);
 			currentNode = nextNode;
+			System.out.println(currentNode);
 		}
 		double sum=0;
 		for(int i = 0; i<shortestRoute.size()-1;i++) {
@@ -177,9 +169,54 @@ public class DJK {
 			List<Way> a = node.ways.stream().filter((x)->x.nds.get(0).equals(node)?x.nds.get(x.nds.size()-1).equals(next):x.nds.get(0).equals(next)).collect(Collectors.toList());
 			sum+=a.get(0).length();
 		}
-		System.out.println("LENGTH:"+sum);
+		Main.shortestDist = sum;
 		System.out.println("SHORTEST ROUTE FINAL: " + shortestRoute);
 
+	}
+	
+	public void edsger(Node source, Node dest) {
+		HashMap<Node, Node> prev = new HashMap<Node,Node>();
+		HashMap<Node, Double> dist = new HashMap<Node,Double>();
+		PriorityQueue<Node> queue = new PriorityQueue<Node>(11, (a,b)-> {if(dist.get(a)==null)dist.put(a,Double.POSITIVE_INFINITY);if(dist.get(b)==null)dist.put(b,Double.POSITIVE_INFINITY);return dist.get(a).compareTo(dist.get(b));});
+		ArrayList<Node> visited = new ArrayList<Node>();
+		Node temp;
+		dist.put(source, 0.0);
+		queue.add(source);
+		while(!queue.isEmpty()) {
+			temp = queue.poll();
+			if(temp.equals(dest))
+				break;
+			for(Way way : temp.ways) {
+				Node stop = way.nds.get(0)==temp?way.nds.get(way.nds.size()-1):way.nds.get(0);
+				if(!visited.contains(stop)) {
+					queue.add(stop);
+					visited.add(stop);
+				}
+				if(dist.get(stop)==null)
+					dist.put(stop,Double.POSITIVE_INFINITY);
+				if((dist.get(temp) + way.length()) < dist.get(stop)) {
+					dist.put(stop, dist.get(temp) + way.length());
+					prev.put(stop, temp);
+				}
+			}
+		}
+		ArrayList<Node> path = new ArrayList<Node>();
+		temp = dest;
+		while(!(prev.get(temp)==null)) {
+			path.add(temp);
+			temp = prev.get(temp);
+		}
+		path.add(temp);
+		double sum=0;
+		for(int i = 0; i<path.size()-1;i++) {	
+			Node node = path.get(i);
+			Node next = path.get(i+1);
+			List<Way> a = node.ways.stream().filter((x)->x.nds.get(0).equals(node)?x.nds.get(x.nds.size()-1).equals(next):x.nds.get(0).equals(next)).collect(Collectors.toList());
+			sum+=a.get(0).length();
+		}
+		Main.shortestDist = sum;
+		shortestRoute = path;
+		System.out.println("done");
 	}
 
 }

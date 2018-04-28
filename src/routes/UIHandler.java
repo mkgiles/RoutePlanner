@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -58,19 +59,27 @@ public class UIHandler {
 	
 	
 	@FXML
-	public void fillDropdowns()
+	public void fillDropdowns() throws InterruptedException, ExecutionException
 	{
+		startLocDrop.getItems().clear();
+		destDrop.getItems().clear();
 		String startName = startLoc.getText();
 		String destName = destination.getText();
-		
 		System.out.println(startName);
 		System.out.println(destName);
-		List<Node> nds = Main.graph.nodes.values().parallelStream().filter((x)->x.names.contains(startName)).collect(Collectors.toList());
-		for(Node node : nds) {
+		List<Node> snds = Main.graph().nodes.values().parallelStream().filter((x)->x.names.contains(startName)).collect(Collectors.toList());
+		List<Node> dnds = Main.graph().nodes.values().parallelStream().filter((x)->x.names.contains(destName)).collect(Collectors.toList());
+		for(Node node : snds) {
 			MenuItem mi = new MenuItem();
 			mi.setText(node.toString());
-			mi.setOnAction((x)->{});
+			mi.setOnAction((x)->{currentSelectionStart = node;startLocDrop.setText(mi.getText());});
 			startLocDrop.getItems().add(mi);
+		}
+		for(Node node : dnds) {
+			MenuItem mi = new MenuItem();
+			mi.setText(node.toString());
+			mi.setOnAction((x)->{currentSelectionDest = node;destDrop.setText(mi.getText());});
+			destDrop.getItems().add(mi);
 		}
 	}
 	
