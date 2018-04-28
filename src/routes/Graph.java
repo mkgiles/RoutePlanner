@@ -1,5 +1,6 @@
 package routes;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 public class Graph {
@@ -62,15 +63,15 @@ public class Graph {
 			}
 		}
 		
-		public double length() {
-			double sum = 0;
+		public BigDecimal length() {
+			BigDecimal sum = BigDecimal.ZERO;
 			for(int i=0;i<nds.size()-1;i++) {
 				Node x = nds.get(i);
 				Node y = nds.get(i+1);
 				double f1 = Math.toRadians(x.lat);
 				double f2 = Math.toRadians(y.lat);
 				double dl = Math.toRadians(y.lon-x.lon);
-				sum+= Math.acos(Math.sin(f1) * Math.sin(f2) + Math.cos(f1) * Math.cos(f2) * Math.cos(dl)) * R;
+				sum= sum.add(BigDecimal.valueOf(Math.acos(Math.sin(f1) * Math.sin(f2) + Math.cos(f1) * Math.cos(f2) * Math.cos(dl)) * R));
 			}
 			return sum;
 		}

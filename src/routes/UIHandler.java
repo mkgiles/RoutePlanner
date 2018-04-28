@@ -4,7 +4,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -16,7 +15,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 
 import routes.Graph.Node;
-import routes.Graph.Relation;
 
 public class UIHandler {
 	
@@ -176,7 +174,7 @@ public class UIHandler {
 				
 				listViewPath.getItems().add(node);
 			}
-			totalDist.setText(Double.toString(Main.shortestDist));
+			totalDist.setText(Main.shortestDist.toString());
 		} else {
 			System.out.println("Please select two points from dropdown menu.");
 		}

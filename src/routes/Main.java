@@ -1,6 +1,7 @@
 package routes;
 
 import java.util.concurrent.ExecutionException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -17,7 +18,8 @@ public class Main extends Application {
 
 	private static Graph graph;
 	private static DBI dbi;
-	public static double shortestDist = -1;
+	public static BigDecimal shortestDist = BigDecimal.valueOf(-1);
+	public static final BigDecimal INFINITY = BigDecimal.valueOf(1000000000000000000L).scaleByPowerOfTen(1000000000); 
 	
 	/*
 	 * (non-Javadoc)
@@ -32,7 +34,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			dbi = new DBI("highways.osm");
+			dbi = new DBI("test.osm");
 			Thread t = new Thread(dbi);
 			t.start();
 			// for(Graph.Node node: graph.nodes.values()) {
@@ -50,7 +52,7 @@ public class Main extends Application {
 
 	}
 
-	public static ArrayList<Node> callDJK(String start, String destination, ArrayList wayPoints, ArrayList avoidedNodes) throws InterruptedException, ExecutionException {
+	public static ArrayList<Node> callDJK(String start, String destination, ArrayList<Node> wayPoints, ArrayList<Node> avoidedNodes) throws InterruptedException, ExecutionException {
 		DJK djk = new DJK(graph);
 		djk.DJKSEARCH(graph.nodes.get(start), graph.nodes.get(destination), wayPoints, avoidedNodes);
 		if(djk.shortestRoute != null) {

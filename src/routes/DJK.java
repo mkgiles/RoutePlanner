@@ -1,5 +1,6 @@
 package routes;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,7 +31,7 @@ public class DJK {
 
 	}
 
-	public void DJKSEARCH(Node selStartPoint, Node selEndPoint, ArrayList selWayPoints, ArrayList selAvoided) {
+	public void DJKSEARCH(Node selStartPoint, Node selEndPoint, ArrayList<Node> selWayPoints, ArrayList<Node> selAvoided) {
 		System.out.println("DJK NODES ASSIGNED");
 		this.startPoint = selStartPoint;
 		this.endPoint = selEndPoint;
@@ -119,10 +120,10 @@ public class DJK {
 //						}
 //					}
 //				}
-				if (way.length() < distances.get(dest)) {
-					distances.put(dest, distances.get(currentNode) + way.length());
-					System.out.println("THE DISTANCE FROM START: " + distances.get(dest));
-				}
+//				if (way.length() < distances.get(dest)) {
+//					distances.put(dest, distances.get(currentNode) + way.length());
+//					System.out.println("THE DISTANCE FROM START: " + distances.get(dest));
+//				}
 				priorityQueue.remove(currentNode);
 
 			}
@@ -187,20 +188,20 @@ public class DJK {
 			Node node = (Node) shortestRoute.get(i);
 			Node next = (Node) shortestRoute.get(i+1);
 			List<Way> a = node.ways.stream().filter((x)->x.nds.get(0).equals(node)?x.nds.get(x.nds.size()-1).equals(next):x.nds.get(0).equals(next)).collect(Collectors.toList());
-			sum+=a.get(0).length();
+//			sum+=a.get(0).length();
 		}
-		Main.shortestDist = sum;
+//		Main.shortestDist = sum;
 		System.out.println("SHORTEST ROUTE FINAL: " + shortestRoute);
 
 	}
 	
 	public void edsger(Node source, Node dest) {
 		HashMap<Node, Node> prev = new HashMap<Node,Node>();
-		HashMap<Node, Double> dist = new HashMap<Node,Double>();
-		PriorityQueue<Node> queue = new PriorityQueue<Node>(11, (a,b)-> {if(dist.get(a)==null)dist.put(a,Double.POSITIVE_INFINITY);if(dist.get(b)==null)dist.put(b,Double.POSITIVE_INFINITY);return dist.get(a).compareTo(dist.get(b));});
+		HashMap<Node, BigDecimal> dist = new HashMap<Node,BigDecimal>();
+		PriorityQueue<Node> queue = new PriorityQueue<Node>(11, (a,b)-> {if(dist.get(a)==null)dist.put(a,Main.INFINITY);if(dist.get(b)==null)dist.put(b,Main.INFINITY);return dist.get(a).compareTo(dist.get(b));});
 		ArrayList<Node> visited = new ArrayList<Node>();
 		Node temp;
-		dist.put(source, 0.0);
+		dist.put(source, BigDecimal.ZERO);
 		queue.add(source);
 		while(!queue.isEmpty()) {
 			temp = queue.poll();
@@ -213,9 +214,9 @@ public class DJK {
 					visited.add(stop);
 				}
 				if(dist.get(stop)==null)
-					dist.put(stop,Double.POSITIVE_INFINITY);
-				if((dist.get(temp) + way.length()) < dist.get(stop)) {
-					dist.put(stop, dist.get(temp) + way.length());
+					dist.put(stop,Main.INFINITY);
+				if((dist.get(temp).add(way.length())).compareTo(dist.get(stop))<0) {
+					dist.put(stop, dist.get(temp).add(way.length()));
 					prev.put(stop, temp);
 				}
 			}
@@ -227,12 +228,12 @@ public class DJK {
 			temp = prev.get(temp);
 		}
 		path.add(temp);
-		double sum=0;
+		BigDecimal sum= BigDecimal.ZERO;
 		for(int i = 0; i<path.size()-1;i++) {	
 			Node node = path.get(i);
 			Node next = path.get(i+1);
 			List<Way> a = node.ways.stream().filter((x)->x.nds.get(0).equals(node)?x.nds.get(x.nds.size()-1).equals(next):x.nds.get(0).equals(next)).collect(Collectors.toList());
-			sum+=a.get(0).length();
+			sum= sum.add(a.get(0).length());
 		}
 		Main.shortestDist = sum;
 		shortestRoute = path;
